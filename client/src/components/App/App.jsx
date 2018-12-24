@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { increment, decrement } from './AppActions';
 import './main.css';
 
-export const App = ({ counter, plus, minus }) => (
+export const DisconnectedApp = ({ counter, plus, minus }) => (
   <div
     style={{
       margin: 20,
@@ -20,7 +20,7 @@ export const App = ({ counter, plus, minus }) => (
   </div>
 );
 
-App.propTypes = {
+DisconnectedApp.propTypes = {
   counter: PropTypes.number.isRequired,
   plus: PropTypes.func.isRequired,
   minus: PropTypes.func.isRequired,
@@ -38,4 +38,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(App);
+)(DisconnectedApp);
