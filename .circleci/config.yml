@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  one:
+  client-build:
     working_directory: ~/full-app/client
     steps:
       - checkout
@@ -19,7 +19,7 @@ jobs:
       - run:
           name: test
           command: npm run test
-  two:
+  server-build:
     working_directory: ~/full-app/server
     steps:
       - checkout
@@ -44,6 +44,6 @@ workflows:
     working_directory: ~/forum-app
     docker:
       - image: circleci/node
-    steps:
-      - one
-      - two
+    jobs:
+      - client-build
+      - server-build
