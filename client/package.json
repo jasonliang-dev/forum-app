@@ -7,7 +7,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint ."
+    "lint": "eslint --ext .js --ext .jsx ."
   },
   "dependencies": {
     "prop-types": "^15.6.2",
