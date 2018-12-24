@@ -4,16 +4,7 @@ import PropTypes from 'prop-types';
 import { increment, decrement } from './AppActions';
 import './main.css';
 
-const mapStateToProps = state => ({
-  counter: state.counter,
-});
-
-const mapDispatchToProps = dispatch => ({
-  plus: () => dispatch(increment()),
-  minus: () => dispatch(decrement()),
-});
-
-const ConnectedApp = ({ counter, plus, minus }) => (
+export const App = ({ counter, plus, minus }) => (
   <div
     style={{
       margin: 20,
@@ -29,17 +20,22 @@ const ConnectedApp = ({ counter, plus, minus }) => (
   </div>
 );
 
-ConnectedApp.propTypes = {
+App.propTypes = {
   counter: PropTypes.number.isRequired,
   plus: PropTypes.func.isRequired,
   minus: PropTypes.func.isRequired,
 };
 
-const connection = connect(
+const mapStateToProps = state => ({
+  counter: state.counter,
+});
+
+const mapDispatchToProps = dispatch => ({
+  plus: () => dispatch(increment()),
+  minus: () => dispatch(decrement()),
+});
+
+export default connect(
   mapStateToProps,
   mapDispatchToProps,
-);
-
-const App = connection(ConnectedApp);
-
-export default App;
+)(App);
