@@ -1,4 +1,4 @@
-const Model = {};
+const Model = {}; // pretend that this is an actual model
 
 const index = (req, res, next) => {
   Model.find({}, (err, models) => {
