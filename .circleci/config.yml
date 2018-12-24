@@ -45,6 +45,9 @@ jobs:
       - run:
           name: lint
           command: npm run lint --prefix server
+      - run:
+          name: test
+          command: npm run test --prefix server
 workflows:
   version: 2
   build:
