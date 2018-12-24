@@ -1,0 +1,10 @@
+{
+  "env": {
+    "browser": true,
+    "jest": true
+  },
+  "rules": {
+    "react/jsx-one-expression-per-line": 0
+  },
+  "extends": ["airbnb", "prettier"]
+}

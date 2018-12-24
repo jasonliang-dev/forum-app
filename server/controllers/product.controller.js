@@ -1,5 +1,5 @@
-import Product from "../models/product.model";
-import baseController from "./base.controller";
+import Product from '../models/product.model';
+import baseController from './base.controller';
 
 const index = (req, res, next) => {
   Product.find({}, (err, products) => {
@@ -11,12 +11,12 @@ const index = (req, res, next) => {
 const store = (req, res, next) => {
   const product = new Product({
     name: req.body.name,
-    price: req.body.price
+    price: req.body.price,
   });
 
   product.save(err => {
     if (err) next(err);
-    else res.send("Product Created successfully");
+    else res.send('Product Created successfully');
   });
 };
 
@@ -30,14 +30,14 @@ const show = (req, res, next) => {
 const update = (req, res, next) => {
   Product.findByIdAndUpdate(req.params.id, { $set: req.body }, err => {
     if (err) next(err);
-    else res.send("Product updated.");
+    else res.send('Product updated.');
   });
 };
 
 const destroy = (req, res, next) => {
   Product.findByIdAndRemove(req.params.id, err => {
     if (err) next(err);
-    else res.send("Deleted successfully!");
+    else res.send('Deleted successfully!');
   });
 };
 
@@ -47,5 +47,5 @@ export default {
   store,
   show,
   update,
-  destroy
+  destroy,
 };
