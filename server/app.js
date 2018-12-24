@@ -33,4 +33,17 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRoute);
 resource(app, "/products", productController);
 
+// 404
+app.use((req, res, next) => {
+  const err = new Error("Not Found");
+  err.status = 404;
+  next(err);
+});
+
+// error handler
+app.use((err, req, res, next) => {
+  res.status(err.status || 500);
+  next(err);
+});
+
 module.exports = app;
