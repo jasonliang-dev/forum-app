@@ -5,6 +5,9 @@ import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import mongoose from "mongoose";
+import productController from "./controllers/product.controller";
+import indexRoute from "./routes/index.route";
+import { resource } from "./routes/utils";
 
 const dbURL =
   process.env.MONGODB_URI ||
@@ -27,7 +30,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", require("./routes/index.routes"));
-app.use("/products", require("./routes/product.routes"));
+app.use("/", indexRoute);
+resource(app, "/products", productController);
 
 module.exports = app;

@@ -42,8 +42,10 @@ const destroy = (req, res, next) => {
 
 export default {
   index,
+  create() {},
   store,
   show,
+  edit() {},
   update,
   destroy
 };
