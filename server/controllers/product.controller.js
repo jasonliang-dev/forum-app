@@ -1,4 +1,5 @@
 import Product from "../models/product.model";
+import baseController from "./base.controller";
 
 const index = (req, res, next) => {
   Product.find({}, (err, products) => {
@@ -41,11 +42,10 @@ const destroy = (req, res, next) => {
 };
 
 export default {
+  ...baseController,
   index,
-  create() {},
   store,
   show,
-  edit() {},
   update,
   destroy
 };

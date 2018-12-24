@@ -1,3 +1,4 @@
+import baseController from "./base.controller";
 const Model = {}; // pretend that this is an actual model
 
 const index = (req, res, next) => {
@@ -46,6 +47,7 @@ const destroy = (req, res, next) => {
 };
 
 export default {
+  ...baseController,
   index,
   create,
   store,
