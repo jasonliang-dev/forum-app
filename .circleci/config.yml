@@ -1,0 +1,23 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/mern-starter
+    docker:
+      - image: circleci/node
+    steps:
+      - checkout
+      - run:
+          name: update-npm
+          command: 'sudo npm install -g npm@latest'
+      - run:
+          name: client-install-npm-wee
+          command: npm install --prefix client
+      - run:
+          name: server-install-npm-wee
+          command: npm install --prefix server
+      - run:
+          name: client-test
+          command: npm run test --prefix client
+      - run:
+          name: server-lint
+          command: npm run lint --prefix server
