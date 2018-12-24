@@ -10,12 +10,12 @@ jobs:
           name: update-npm
           command: 'sudo npm install -g npm@latest'
       - restore_cache:
-          key: dependency-cache-{{ checksum "client/package.json" }}
+          key: v2-dependency-cache-{{ checksum "client/package.json" }}
       - run:
           name: install-npm
           command: npm install --prefix client
       - save_cache:
-          key: dependency-cache-{{ checksum "client/package.json" }}
+          key: v2-dependency-cache-{{ checksum "client/package.json" }}
           paths:
             - ./client/node_modules
       - run:
@@ -34,12 +34,12 @@ jobs:
           name: update-npm
           command: 'sudo npm install -g npm@latest'
       - restore_cache:
-          key: dependency-cache-{{ checksum "server/package.json" }}
+          key: v2-dependency-cache-{{ checksum "server/package.json" }}
       - run:
           name: install-npm
           command: npm install --prefix server
       - save_cache:
-          key: dependency-cache-{{ checksum "server/package.json" }}
+          key: v2-dependency-cache-{{ checksum "server/package.json" }}
           paths:
             - ./server/node_modules
       - run:
