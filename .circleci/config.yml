@@ -19,6 +19,9 @@ jobs:
           paths:
             - ./client/node_modules
       - run:
+          name: lint
+          command: npm run lint --prefix client
+      - run:
           name: test
           command: npm run test --prefix client
   server-build:
