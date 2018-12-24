@@ -9,12 +9,19 @@ jobs:
       - run:
           name: update-npm
           command: 'sudo npm install -g npm@latest'
+      - restore_cache:
+          key: dependency-cache-{{ checksum "client/package.json" }}-{{ checksum "server/package.json "}}
       - run:
-          name: client-install-npm-wee
+          name: client-install-npm
           command: npm install --prefix client
       - run:
-          name: server-install-npm-wee
+          name: server-install-npm
           command: npm install --prefix server
+      - save_cache:
+          key: dependency-cache-{{ checksum "client/package.json" }}-{{ checksum "server/package.json "}}
+          paths:
+            - ./client/node_modules
+            - ./server/node_modules
       - run:
           name: client-test
           command: npm run test --prefix client
