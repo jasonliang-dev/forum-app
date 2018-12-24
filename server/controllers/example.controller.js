@@ -1,10 +1,11 @@
 import baseController from "./base.controller";
+
 const Model = {}; // pretend that this is an actual model
 
 const index = (req, res, next) => {
   Model.find({}, (err, models) => {
     if (err) next(err);
-    else res.send(models);
+    else res.render("index", { models });
   });
 };
 
@@ -28,8 +29,11 @@ const show = (req, res, next) => {
   });
 };
 
-const edit = (req, res) => {
-  res.render("edit");
+const edit = (req, res, next) => {
+  Model.findById(req.params.id, (err, model) => {
+    if (err) next(err);
+    else res.render("edit", { model });
+  });
 };
 
 const update = (req, res, next) => {
