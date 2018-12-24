@@ -17,10 +17,10 @@ jobs:
       - save_cache:
           key: dependency-cache-{{ checksum "client/package.json" }}
           paths:
-            - ./node_modules
+            - ./client/node_modules
       - run:
           name: test
-          command: npm run test
+          command: npm run test --prefix client
   server-build:
     working_directory: ~/full-app
     docker:
@@ -38,10 +38,10 @@ jobs:
       - save_cache:
           key: dependency-cache-{{ checksum "server/package.json" }}
           paths:
-            - ./node_modules
+            - ./server/node_modules
       - run:
           name: lint
-          command: npm run lint
+          command: npm run lint --prefix server
 workflows:
   version: 2
   build:
