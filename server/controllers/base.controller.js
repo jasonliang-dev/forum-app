@@ -17,7 +17,7 @@ export default class BaseController {
   store(req, res, next) {
     new this.Model(req.body)
       .save()
-      .then(() => res.send('Created successfully'))
+      .then(() => res.status(201).send('Created successfully'))
       .catch(next);
   }
 
