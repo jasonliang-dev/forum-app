@@ -36,15 +36,9 @@ resource(app, '/products', productController);
 resource(app, '/users', userController);
 
 // 404
-app.use((req, res, next) => {
+app.get('*', (req, res, next) => {
   const err = new Error('Not Found');
   err.status = 404;
-  next(err);
-});
-
-// error handler
-app.use((err, req, res, next) => {
-  res.status(err.status || 500);
   next(err);
 });
 
