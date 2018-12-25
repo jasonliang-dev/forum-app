@@ -4,6 +4,7 @@
  * Module dependencies.
  */
 
+require('dotenv').config();
 require('@babel/register');
 var app = require('../app');
 var debug = require('debug')('full-app:server');
