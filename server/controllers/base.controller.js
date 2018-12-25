@@ -1,3 +1,5 @@
+import { isMongoId } from 'validator';
+
 export default class BaseController {
   constructor(model) {
     this.Model = model;
@@ -22,9 +24,13 @@ export default class BaseController {
   }
 
   show(req, res, next) {
-    this.Model.findById(req.params.id)
-      .then(model => res.send(model))
-      .catch(next);
+    const { id } = req.params;
+
+    if (!isMongoId(id)) res.sendStatus(404);
+    else
+      this.Model.findById(id)
+        .then(model => (model ? res.send(model) : res.sendStatus(404)))
+        .catch(next);
   }
 
   update(req, res, next) {

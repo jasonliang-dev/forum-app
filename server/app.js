@@ -42,4 +42,14 @@ app.get('*', (req, res, next) => {
   next(err);
 });
 
+// catch all error handler
+app.use((err, req, res, next) => {
+  if (err.kind === 'ObjectId') {
+    err.status = 404; // eslint-disable-line no-param-reassign
+  }
+
+  res.status(err.status || 500);
+  next(err);
+});
+
 module.exports = app;
