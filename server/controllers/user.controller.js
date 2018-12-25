@@ -18,4 +18,20 @@ UserController.store = (req, res, next) => {
     .catch(next);
 };
 
+UserController.authenticate = (req, res, next) => {
+  User.findOne({ username: req.body.username })
+    .select('+password')
+    .then(user => user || res.status(401).send({ message: 'User not found' }))
+    .then(user =>
+      bcrypt
+        .compare(req.body.password, user.password)
+        .then(isValid =>
+          isValid
+            ? res.send({ data: user })
+            : res.status(401).send({ message: 'Incorrect password' }),
+        ),
+    )
+    .catch(next);
+};
+
 export default UserController;
