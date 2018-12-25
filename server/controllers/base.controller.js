@@ -1,11 +1,16 @@
 export default class BaseController {
   constructor(model) {
     this.Model = model;
+    this.index = this.index.bind(this);
+    this.store = this.store.bind(this);
+    this.show = this.show.bind(this);
+    this.update = this.update.bind(this);
+    this.destroy = this.destroy.bind(this);
   }
 
   index(req, res, next) {
     this.Model.find({})
-      .then(products => res.send(products))
+      .then(models => res.send(models))
       .catch(next);
   }
 
@@ -18,7 +23,7 @@ export default class BaseController {
 
   show(req, res, next) {
     this.Model.findById(req.params.id)
-      .then(product => res.send(product))
+      .then(model => res.send(model))
       .catch(next);
   }
 

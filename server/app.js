@@ -5,7 +5,7 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import mongoose from 'mongoose';
-import * as productController from './controllers/product.controller';
+import productController from './controllers/product.controller';
 import indexRoute from './routes/index.route';
 import { resource } from './routes/utils';
 
