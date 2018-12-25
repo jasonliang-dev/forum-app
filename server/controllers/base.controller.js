@@ -1,5 +1,12 @@
 import { isMongoId } from 'validator';
 
+// send 404 if no data
+// otherwise, respond
+export const sendOr404 = (responseObject, message) => data =>
+  data
+    ? responseObject.send({ data, message })
+    : responseObject.sendStatus(404);
+
 export default class BaseController {
   constructor(model) {
     this.Model = model;
@@ -19,29 +26,33 @@ export default class BaseController {
   store(req, res, next) {
     new this.Model(req.body)
       .save()
-      .then(() => res.status(201).send('Created successfully'))
+      .then(data =>
+        res.status(201).send({ data, message: 'Created successfully' }),
+      )
       .catch(next);
   }
 
   show(req, res, next) {
-    const { id } = req.params;
-
-    if (!isMongoId(id)) res.sendStatus(404);
+    if (!isMongoId(req.params.id)) res.sendStatus(404);
     else
-      this.Model.findById(id)
-        .then(model => (model ? res.send(model) : res.sendStatus(404)))
+      this.Model.findById(req.params.id)
+        .then(sendOr404(res))
         .catch(next);
   }
 
   update(req, res, next) {
-    this.Model.findByIdAndUpdate(req.params.id, { $set: req.body })
-      .then(() => res.send('Updated successfully.'))
-      .catch(next);
+    if (!isMongoId(req.params.id)) res.sendStatus(404);
+    else
+      this.Model.findByIdAndUpdate(req.params.id, { $set: req.body })
+        .then(sendOr404(res, 'Updated successfully'))
+        .catch(next);
   }
 
   destroy(req, res, next) {
-    this.Model.findByIdAndRemove(req.params.id)
-      .then(() => res.send('Deleted successfully'))
-      .catch(next);
+    if (!isMongoId(req.params.id)) res.sendStatus(404);
+    else
+      this.Model.findByIdAndRemove(req.params.id)
+        .then(sendOr404(res, 'Deleted successfully'))
+        .catch(next);
   }
 }

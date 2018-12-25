@@ -2,6 +2,7 @@
 export const resource = (router, route, controller) => {
   // create
   router.post(route, controller.store);
+  router.post(`${route}/:id`, (req, res) => res.sendStatus(404));
   // read
   router.get(route, controller.index);
   router.get(`${route}/:id`, controller.show);

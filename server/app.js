@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 import express from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
@@ -21,6 +19,7 @@ mongoose.connect(
 mongoose.Promise = Promise;
 
 const db = mongoose.connection;
+// eslint-disable-next-line no-console
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 const app = express();
