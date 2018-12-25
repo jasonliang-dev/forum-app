@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import mongoose from 'mongoose';
 import productController from './controllers/product.controller';
+import userController from './controllers/user.controller';
 import indexRoute from './routes/index.route';
 import { resource } from './routes/utils';
 
@@ -32,6 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRoute);
 resource(app, '/products', productController);
+resource(app, '/users', userController);
 
 // 404
 app.use((req, res, next) => {
