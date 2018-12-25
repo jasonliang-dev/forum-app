@@ -1,11 +1,11 @@
 export default class BaseController {
   constructor(model) {
     this.Model = model;
-    this.index = this.index.bind(this);
-    this.store = this.store.bind(this);
-    this.show = this.show.bind(this);
-    this.update = this.update.bind(this);
-    this.destroy = this.destroy.bind(this);
+    this.index = ::this.index;
+    this.store = ::this.store;
+    this.show = ::this.show;
+    this.update = ::this.update;
+    this.destroy = ::this.destroy;
   }
 
   index(req, res, next) {

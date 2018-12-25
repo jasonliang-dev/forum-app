@@ -4,6 +4,7 @@
   },
   "extends": ["airbnb", "prettier"],
   "plugins": ["chai-friendly"],
+  "parser": "babel-eslint",
   "rules": {
     "no-unused-expressions": 0,
     "chai-friendly/no-unused-expressions": 2
