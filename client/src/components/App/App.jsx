@@ -1,41 +1,29 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { increment, decrement } from './AppActions';
-import './main.css';
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import OldApp from '../OldApp/App';
+import NoMatch from '../404/404';
 
-export const DisconnectedApp = ({ counter, plus, minus }) => (
-  <div
-    style={{
-      margin: 20,
-    }}
-  >
-    <button type="button" onClick={plus}>
-      +
-    </button>
-    <div className="count">{counter}</div>
-    <button type="button" onClick={minus}>
-      -
-    </button>
+const About = () => (
+  <div>
+    <h1>About Page</h1>
   </div>
 );
 
-DisconnectedApp.propTypes = {
-  counter: PropTypes.number.isRequired,
-  plus: PropTypes.func.isRequired,
-  minus: PropTypes.func.isRequired,
-};
+const App = () => (
+  <Router>
+    <div>
+      <nav>
+        <Link to="/">Home</Link>
+        <Link to="/about">About</Link>
+        <Link to="/login">Login</Link>
+      </nav>
+      <Switch>
+        <Route path="/" exact component={OldApp} />
+        <Route path="/about" exact component={About} />
+        <Route component={NoMatch} />
+      </Switch>
+    </div>
+  </Router>
+);
 
-const mapStateToProps = state => ({
-  counter: state.counter,
-});
-
-const mapDispatchToProps = dispatch => ({
-  plus: () => dispatch(increment()),
-  minus: () => dispatch(decrement()),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(DisconnectedApp);
+export default App;

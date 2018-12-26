@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import session from 'express-session';
@@ -34,6 +35,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+// app.use(express.static(path.join(__dirname, '../client/dist/index.html')));
 
 // track logins by using sessions
 app.use(
@@ -54,6 +56,7 @@ app.post('/users/auth', userController.authenticate);
 resource(app, '/users', userController);
 
 // 404
+// TODO: change this to fit client side routing
 app.get('*', (req, res, next) => {
   const err = new Error('Not Found');
   err.status = 404;
