@@ -5,7 +5,7 @@ import { isMongoId } from 'validator';
 export const sendOr404 = (responseObject, message) => data =>
   data
     ? responseObject.send({ data, message })
-    : responseObject.sendStatus(404);
+    : responseObject.status(404).send({ message: 'Cannot find record' });
 
 export default class BaseController {
   constructor(model) {

@@ -60,6 +60,7 @@ app.get('*', (req, res, next) => {
 
 // catch all error handler
 app.use((err, req, res, next) => {
+  // doesn't seem to work. hmmm....
   if (err.kind === 'ObjectId') {
     err.status = 404; // eslint-disable-line no-param-reassign
   }
