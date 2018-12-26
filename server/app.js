@@ -1,11 +1,12 @@
 import express from 'express';
-import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import session from 'express-session';
 import mongoose from 'mongoose';
 import productController from './controllers/product.controller';
 import userController from './controllers/user.controller';
+import threadController from './controllers/thread.controller';
+import replyController from './controllers/reply.controller';
 import indexRoute from './routes/index.route';
 import { resource } from './routes/utils';
 
@@ -33,7 +34,6 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
 // track logins by using sessions
 app.use(
@@ -47,6 +47,8 @@ app.use(
 // route middleware
 app.use('/', indexRoute);
 resource(app, '/products', productController);
+resource(app, '/threads', threadController);
+resource(app, '/replies', replyController);
 
 app.post('/users/auth', userController.authenticate);
 resource(app, '/users', userController);
