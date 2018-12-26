@@ -19,6 +19,13 @@ const styles = {
   },
 };
 
+const Links = ({ children, classes }) =>
+  children.map(child => (
+    <Button color="inherit" className={classes.button}>
+      {React.cloneElement(child, { className: classes.link })}
+    </Button>
+  ));
+
 const Nav = ({ children, classes }) => (
   <div className={classes.grow}>
     <AppBar position="static">
@@ -26,11 +33,7 @@ const Nav = ({ children, classes }) => (
         <Typography variant="h6" color="inherit" className={classes.grow}>
           Home
         </Typography>
-        {children.map(child => (
-          <Button color="inherit" className={classes.button}>
-            {React.cloneElement(child, { className: classes.link })}
-          </Button>
-        ))}
+        <Links classes={classes}>{children}</Links>
       </Toolbar>
     </AppBar>
   </div>
