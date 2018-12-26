@@ -1,25 +1,21 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
-import OldApp from '../OldApp/App';
-import NoMatch from '../404/404';
-
-const About = () => (
-  <div>
-    <h1>About Page</h1>
-  </div>
-);
+import Nav from '../Nav/Nav';
+import Home from '../Home/Home';
+import Counter from '../Counter/App';
+import NoMatch from '../NoMatch/NoMatch';
 
 const App = () => (
   <Router>
     <div>
-      <nav>
+      <Nav>
         <Link to="/">Home</Link>
-        <Link to="/about">About</Link>
+        <Link to="/counter">Counter</Link>
         <Link to="/login">Login</Link>
-      </nav>
+      </Nav>
       <Switch>
-        <Route path="/" exact component={OldApp} />
-        <Route path="/about" exact component={About} />
+        <Route path="/" exact component={Home} />
+        <Route path="/counter" exact component={Counter} />
         <Route component={NoMatch} />
       </Switch>
     </div>
