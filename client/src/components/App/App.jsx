@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Nav from '../Nav/Nav';
@@ -11,27 +12,20 @@ const styles = {
   linkButton: {
     marginLeft: 10,
     color: 'inherit',
-    textDecoration: 'none',
   },
 };
 
-const UnstyledLinkButton = ({ classes, ...rest }) => (
-  <Button {...rest} className={classes.linkButton} />
-);
-
-const LinkButton = withStyles(styles)(UnstyledLinkButton);
-
-const NavBar = () => (
+const NavBar = ({ classes }) => (
   <Nav>
-    <LinkButton component={Link} to="/">
+    <Button component={Link} to="/" className={classes.linkButton}>
       Home
-    </LinkButton>
-    <LinkButton component={Link} to="/counter">
+    </Button>
+    <Button component={Link} to="/counter" className={classes.linkButton}>
       Counter
-    </LinkButton>
-    <LinkButton component={Link} to="/login">
+    </Button>
+    <Button component={Link} to="/login" className={classes.linkButton}>
       Login
-    </LinkButton>
+    </Button>
   </Nav>
 );
 
@@ -43,13 +37,21 @@ const Main = () => (
   </Switch>
 );
 
-const App = () => (
+const App = ({ classes }) => (
   <Router>
     <div>
-      <NavBar />
+      <NavBar classes={classes} />
       <Main />
     </div>
   </Router>
 );
 
-export default App;
+NavBar.propTypes = {
+  classes: PropTypes.shape({}).isRequired,
+};
+
+App.propTypes = {
+  classes: PropTypes.shape({}).isRequired,
+};
+
+export default withStyles(styles)(App);
