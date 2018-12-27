@@ -3,13 +3,9 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
-  root: {
-    padding: `0 ${theme.spacing.unit * 4}px`,
-    margin: '0 auto',
-    maxWidth: 900,
-  },
   button: {
     margin: theme.spacing.unit,
   },
@@ -20,15 +16,21 @@ const styles = theme => ({
   },
 });
 
+const Discussion = ({ classes, ...rest }) => (
+  <Paper className={classes.paper}>
+    <Typography variant="body1" {...rest} />
+  </Paper>
+);
+
 const Home = ({ classes }) => (
-  <div className={classes.root}>
+  <div>
     <Button variant="contained" color="primary" className={classes.button}>
       Hello World
     </Button>
-    <Paper className={classes.paper}>Foo</Paper>
-    <Paper className={classes.paper}>Foo</Paper>
-    <Paper className={classes.paper}>Foo</Paper>
-    <Paper className={classes.paper}>Foo</Paper>
+    <Discussion classes={classes}>Foo</Discussion>
+    <Discussion classes={classes}>Bar</Discussion>
+    <Discussion classes={classes}>Baz</Discussion>
+    <Discussion classes={classes}>Qux</Discussion>
   </div>
 );
 

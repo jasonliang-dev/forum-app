@@ -1,9 +1,6 @@
 import React from 'react';
+import Typography from '@material-ui/core/Typography';
 
-const NoMatch = () => (
-  <div>
-    <h1>404</h1>
-  </div>
-);
+const NoMatch = () => <Typography variant="h3">404 Not Found</Typography>;
 
 export default NoMatch;

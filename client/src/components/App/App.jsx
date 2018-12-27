@@ -1,14 +1,20 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Nav from '../Nav/Nav';
 import Home from '../Home/Home';
 import Counter from '../Counter/App';
+import Login from '../Login/Login';
 import NoMatch from '../NoMatch/NoMatch';
 
 const styles = {
+  main: {
+    margin: '0 auto',
+    maxWidth: 900,
+  },
   linkButton: {
     marginLeft: 10,
     color: 'inherit',
@@ -33,6 +39,7 @@ const Main = () => (
   <Switch>
     <Route path="/" exact component={Home} />
     <Route path="/counter" exact component={Counter} />
+    <Route path="/login" exact component={Login} />
     <Route component={NoMatch} />
   </Switch>
 );
@@ -40,8 +47,11 @@ const Main = () => (
 const App = ({ classes }) => (
   <Router>
     <div>
+      <CssBaseline />
       <NavBar classes={classes} />
-      <Main />
+      <div className={classes.main}>
+        <Main />
+      </div>
     </div>
   </Router>
 );
