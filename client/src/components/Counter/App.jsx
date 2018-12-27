@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { increment, decrement } from './AppActions';
-import './main.css';
 
 export const DisconnectedApp = ({ counter, plus, minus }) => (
   <div

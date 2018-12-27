@@ -1,4 +1,4 @@
-import * as actions from '../AppActions';
+import * as actions from './AppActions';
 
 describe('App Actions', () => {
   it('returns the correct type for increment', () => {

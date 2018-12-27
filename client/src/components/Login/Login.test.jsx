@@ -1,9 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import NoMatch from './NoMatch';
+import Login from './Login';
 
-describe('NoMatch', () => {
+describe('Login', () => {
   it('renders without crashing', () => {
-    shallow(<NoMatch />);
+    shallow(<Login />);
   });
 });

@@ -1,5 +1,5 @@
-import appReducer from '../AppReducer';
-import { INCREMENT, DECREMENT } from '../AppActions';
+import appReducer from './AppReducer';
+import { INCREMENT, DECREMENT } from './AppActions';
 
 describe('App Reducer', () => {
   it('should return the initial state', () => {
