@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Button from '@material-ui/core/Button';
-import Nav from '../Nav/Nav';
+import Nav from '../../components/Nav/Nav';
 import Home from '../Home/Home';
 import Counter from '../Counter/App';
 import Login from '../Login/Login';

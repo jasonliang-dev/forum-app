@@ -6,7 +6,7 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
 import withStyles from '@material-ui/core/styles/withStyles';
-import InputField from '../InputField/InputField';
+import InputField from '../../components/InputField/InputField';
 
 const styles = theme => ({
   form: {
