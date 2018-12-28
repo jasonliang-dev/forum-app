@@ -1,14 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { reduxForm } from 'redux-form';
 import axios from 'axios';
-import compose from 'ramda/src/compose';
-import Button from '@material-ui/core/Button';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
 import Paper from '@material-ui/core/Paper';
 import withStyles from '@material-ui/core/styles/withStyles';
-import InputField from '../InputField/InputField';
+import RegisterForm from './RegisterForm';
 import environment from '../../environment';
 import { inspect } from '../../utils';
 
@@ -32,57 +27,7 @@ const styles = theme => ({
     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
       .spacing.unit * 3}px`,
   },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-  },
-  submit: {
-    marginTop: theme.spacing.unit * 3,
-  },
 });
-
-let RegisterForm = ({ classes, handleSubmit }) => (
-  <form className={classes.form} onSubmit={handleSubmit}>
-    <FormControl margin="normal" required fullWidth>
-      <InputLabel htmlFor="email">Email</InputLabel>
-      <InputField id="email" type="email" name="email" autoFocus />
-    </FormControl>
-    <FormControl margin="normal" required fullWidth>
-      <InputLabel htmlFor="username">Username</InputLabel>
-      <InputField id="username" name="username" type="text" />
-    </FormControl>
-    <FormControl margin="normal" required fullWidth>
-      <InputLabel htmlFor="password">Password</InputLabel>
-      <InputField name="password" type="password" id="password" />
-    </FormControl>
-    <FormControl margin="normal" required fullWidth>
-      <InputLabel htmlFor="password-confirm">Confirm Password</InputLabel>
-      <InputField
-        name="passwordConfirm"
-        type="password"
-        id="password-confirm"
-      />
-    </FormControl>
-    <Button
-      type="submit"
-      fullWidth
-      variant="contained"
-      color="primary"
-      className={classes.submit}
-    >
-      Register
-    </Button>
-  </form>
-);
-
-RegisterForm.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-};
-
-RegisterForm = compose(
-  reduxForm({ form: 'register' }),
-  withStyles(styles),
-)(RegisterForm);
 
 const handleSubmit = values => {
   axios
