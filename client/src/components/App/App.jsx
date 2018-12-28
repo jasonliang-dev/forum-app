@@ -2,12 +2,13 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { withStyles } from '@material-ui/core/styles';
+import withStyles from '@material-ui/core/styles/withStyles';
 import Button from '@material-ui/core/Button';
 import Nav from '../Nav/Nav';
 import Home from '../Home/Home';
 import Counter from '../Counter/App';
 import Login from '../Login/Login';
+import Register from '../Register/Register';
 import NoMatch from '../NoMatch/NoMatch';
 
 const styles = {
@@ -29,6 +30,9 @@ const NavBar = ({ classes }) => (
     <Button component={Link} to="/counter" className={classes.linkButton}>
       Counter
     </Button>
+    <Button component={Link} to="/register" className={classes.linkButton}>
+      Register
+    </Button>
     <Button component={Link} to="/login" className={classes.linkButton}>
       Login
     </Button>
@@ -39,6 +43,7 @@ const Main = () => (
   <Switch>
     <Route path="/" exact component={Home} />
     <Route path="/counter" exact component={Counter} />
+    <Route path="/register" exact component={Register} />
     <Route path="/login" exact component={Login} />
     <Route component={NoMatch} />
   </Switch>
