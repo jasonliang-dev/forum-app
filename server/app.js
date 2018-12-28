@@ -1,6 +1,7 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
+import cors from 'cors';
 import session from 'express-session';
 import mongoose from 'mongoose';
 import productController from './controllers/product.controller';
@@ -35,6 +36,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, '../client/dist/index.html')));
+
+// enable CORS
+app.use(cors());
 
 // track logins by using sessions
 app.use(
