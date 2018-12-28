@@ -4,10 +4,10 @@ import { Field, reduxForm } from 'redux-form';
 import compose from 'ramda/src/compose';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
-import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import Paper from '@material-ui/core/Paper';
 import withStyles from '@material-ui/core/styles/withStyles';
+import InputField from '../InputField/InputField';
 import environment from '../../environment';
 import { inspect } from '../../utils';
 
@@ -43,19 +43,23 @@ let RegisterForm = ({ classes, handleSubmit }) => (
   <form className={classes.form} onSubmit={handleSubmit}>
     <FormControl margin="normal" required fullWidth>
       <InputLabel htmlFor="email">Email</InputLabel>
-      <Input id="email" type="email" name="email" autoFocus />
+      <InputField id="email" type="email" name="email" autoFocus />
     </FormControl>
     <FormControl margin="normal" required fullWidth>
       <InputLabel htmlFor="username">Username</InputLabel>
-      <Input id="username" name="username" type="text" />
+      <InputField id="username" name="username" type="text" />
     </FormControl>
     <FormControl margin="normal" required fullWidth>
       <InputLabel htmlFor="password">Password</InputLabel>
-      <Input name="password" type="password" id="password" />
+      <InputField name="password" type="password" id="password" />
     </FormControl>
     <FormControl margin="normal" required fullWidth>
       <InputLabel htmlFor="password-confirm">Confirm Password</InputLabel>
-      <Input name="passwordConfirm" type="password" id="password-confirm" />
+      <InputField
+        name="passwordConfirm"
+        type="password"
+        id="password-confirm"
+      />
     </FormControl>
     <Button
       type="submit"
