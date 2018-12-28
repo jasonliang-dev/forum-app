@@ -1,13 +1,4 @@
-export const formPost = (event, url) => {
-  event.preventDefault();
-  const data = new FormData(event.target);
-
-  return fetch(url, {
-    method: 'POST',
-    data,
-  });
-};
-
+// eslint-disable-next-line import/prefer-default-export
 export const inspect = x => {
   console.log(x); // eslint-disable-line no-console
   return x;
