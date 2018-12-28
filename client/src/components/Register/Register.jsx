@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
+import { reduxForm } from 'redux-form';
+import axios from 'axios';
 import compose from 'ramda/src/compose';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
@@ -84,7 +85,15 @@ RegisterForm = compose(
 )(RegisterForm);
 
 const handleSubmit = values => {
-  console.log('values', values);
+  axios
+    .post(`${environment.endpoint}/users`, values)
+    .then(inspect)
+    .catch(err => {
+      if (err.response) {
+        alert(err.response.data.message);
+      }
+      console.log(err.message);
+    });
 };
 
 const Register = ({ classes }) => (

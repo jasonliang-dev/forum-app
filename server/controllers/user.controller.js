@@ -11,6 +11,11 @@ UserController.store = (req, res, next) => {
     return;
   }
 
+  if (req.body.password !== req.body.passwordConfirm) {
+    res.status(400).send({ message: 'Passwords do not match' });
+    return;
+  }
+
   const hashed = bcrypt.hashSync(req.body.password, 10);
   req.body.password = hashed;
 
