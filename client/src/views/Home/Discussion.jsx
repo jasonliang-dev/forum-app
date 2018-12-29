@@ -16,6 +16,9 @@ const styles = theme => ({
   icon: {
     marginRight: theme.spacing.unit * 2,
   },
+  inline: {
+    display: 'inline-block',
+  },
 });
 
 const Discussion = ({ title, user, classes }) => (
@@ -28,7 +31,7 @@ const Discussion = ({ title, user, classes }) => (
       </Grid>
       <Grid item>
         <Typography variant="body1">{title}</Typography>
-        <Typography variant="body2">{user}</Typography>
+        <Typography variant="body2">by {user}</Typography>
       </Grid>
     </Grid>
   </Paper>

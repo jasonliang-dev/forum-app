@@ -21,7 +21,13 @@ const styles = theme => ({
 const LoginForm = ({ classes, handleSubmit }) => (
   <form className={classes.form} onSubmit={handleSubmit}>
     <FormControl margin="normal" required fullWidth>
-      <TextField id="username" type="text" name="username" label="Username" />
+      <TextField
+        id="username"
+        type="text"
+        name="username"
+        label="Username"
+        autoFocus
+      />
     </FormControl>
     <FormControl margin="normal" required fullWidth>
       <TextField
