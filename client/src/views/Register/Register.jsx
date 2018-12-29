@@ -34,10 +34,8 @@ const handleSubmit = values => {
     .post(`${environment.endpoint}/users`, values)
     .then(inspect)
     .catch(err => {
-      if (err.response) {
-        alert(err.response.data.message);
-      }
-      console.log(err.message);
+      alert(err.message);
+      console.log(err);
     });
 };
 
