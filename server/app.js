@@ -70,7 +70,7 @@ app.get('*', (req, res, next) => {
 // catch all error handler
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
-  res.status(err.status || 500).send();
+  res.status(err.status || 500).send(err);
 });
 
 module.exports = app;

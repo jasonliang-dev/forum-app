@@ -1,6 +1,8 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import compose from 'ramda/src/compose';
 import Paper from '@material-ui/core/Paper';
 import withStyles from '@material-ui/core/styles/withStyles';
 import RegisterForm from './RegisterForm';
@@ -29,26 +31,27 @@ const styles = theme => ({
   },
 });
 
-const handleSubmit = values => {
+const handleSubmit = history => values => {
   axios
     .post(`${environment.endpoint}/users`, values)
-    .then(inspect)
-    .catch(err => {
-      alert(err.message);
-      console.log(err);
-    });
+    .then(() => history.push('/login'))
+    .catch(inspect);
 };
 
-const Register = ({ classes }) => (
+const Register = ({ classes, history }) => (
   <div className={classes.root}>
     <Paper className={classes.paper}>
-      <RegisterForm onSubmit={handleSubmit} />
+      <RegisterForm onSubmit={handleSubmit(history)} />
     </Paper>
   </div>
 );
 
 Register.propTypes = {
   classes: PropTypes.shape({}).isRequired,
+  history: PropTypes.shape({}).isRequired,
 };
 
-export default withStyles(styles)(Register);
+export default compose(
+  withRouter,
+  withStyles(styles),
+)(Register);
