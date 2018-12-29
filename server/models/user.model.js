@@ -1,4 +1,5 @@
 import { Schema, model, SchemaTypes } from 'mongoose';
+import uniqueValidator from 'mongoose-unique-validator';
 
 const { ObjectId } = SchemaTypes;
 
@@ -12,6 +13,8 @@ const UserSchema = new Schema({
   joinedDate: { type: Date, required: true, default: Date.now },
   lastLogin: { type: Date },
 });
+
+UserSchema.plugin(uniqueValidator);
 
 const User = model('user', UserSchema);
 

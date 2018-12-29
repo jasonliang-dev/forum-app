@@ -56,6 +56,7 @@ resource(app, '/threads', threadController);
 resource(app, '/replies', replyController);
 
 app.post('/users/auth', userController.authenticate);
+app.post('/users/validate', userController.validate);
 resource(app, '/users', userController);
 
 // 404
@@ -67,14 +68,9 @@ app.get('*', (req, res, next) => {
 });
 
 // catch all error handler
+// eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
-  // doesn't seem to work. hmmm....
-  if (err.kind === 'ObjectId') {
-    err.status = 404; // eslint-disable-line no-param-reassign
-  }
-
-  res.status(err.status || 500);
-  next(err);
+  res.status(err.status || 500).send();
 });
 
 module.exports = app;

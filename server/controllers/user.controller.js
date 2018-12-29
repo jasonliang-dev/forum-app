@@ -5,17 +5,41 @@ import BaseController from './base.controller';
 
 const UserController = new BaseController(User);
 
+UserController.validate = (req, res, next) => {
+  const response = {};
+
+  const validateError = (field, message) => {
+    res.status(400);
+    response[field] = message;
+  };
+
+  if (!req.body.email) validateError('email', 'Missing email');
+
+  if (!isEmail(req.body.email)) validateError('email', 'Invalid email');
+
+  if (req.body.password !== req.body.passwordConfirm)
+    validateError('password', 'Passwords do not match');
+
+  const findEmail = User.find({ email: req.body.email })
+    .then(users => {
+      if (users.length) validateError('email', 'Email already taken');
+    })
+    .catch(next);
+
+  const findUsername = User.find({ username: req.body.username })
+    .then(users => {
+      if (users.length) validateError('username', 'Username already taken');
+    })
+    .catch(next);
+
+  Promise.all([findEmail, findUsername])
+    .then(() => {
+      res.send(Object.keys(response).length ? response : { success: true });
+    })
+    .catch(next);
+};
+
 UserController.store = (req, res, next) => {
-  if (!isEmail(req.body.email)) {
-    res.status(400).send({ message: 'Invalid email' });
-    return;
-  }
-
-  if (req.body.password !== req.body.passwordConfirm) {
-    res.status(400).send({ message: 'Passwords do not match' });
-    return;
-  }
-
   const hashed = bcrypt.hashSync(req.body.password, 10);
   req.body.password = hashed;
 
