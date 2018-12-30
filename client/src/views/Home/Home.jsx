@@ -1,9 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import compose from 'ramda/src/compose';
 import withStyles from '@material-ui/core/styles/withStyles';
 import AddIcon from '@material-ui/icons/Add';
+import Typography from '@material-ui/core/Typography';
 import Fab from '@material-ui/core/Fab';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Discussion from './Discussion';
@@ -55,6 +57,8 @@ export class DisconnectedHome extends React.Component {
     return (
       <div className={classes.root}>
         <Fab
+          component={Link}
+          to="/threads/create"
           variant="extended"
           color="primary"
           aria-label="Add"
@@ -63,6 +67,7 @@ export class DisconnectedHome extends React.Component {
           <AddIcon className={classes.extendedIcon} />
           Add Topic
         </Fab>
+        <Typography variant="h4">Threads</Typography>
         <Discussion title="Foo" user="foo" />
         {threads.map(thread => (
           <Discussion title={thread.title} user="Unknown" />

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import compose from 'ramda/src/compose';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import LoginForm from './LoginForm';
 import environment from '../../environment';
@@ -25,7 +26,6 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 8,
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
       .spacing.unit * 3}px`,
   },
@@ -41,6 +41,7 @@ const handleSubmit = history => values => {
 const SignIn = ({ classes, history }) => (
   <div className={classes.root}>
     <Paper className={classes.paper}>
+      <Typography variant="h6">Login</Typography>
       <LoginForm onSubmit={handleSubmit(history)} />
     </Paper>
   </div>

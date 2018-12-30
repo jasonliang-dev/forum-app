@@ -4,7 +4,6 @@ import { reduxForm } from 'redux-form';
 import compose from 'ramda/src/compose';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
-import FormControl from '@material-ui/core/FormControl';
 import withStyles from '@material-ui/core/styles/withStyles';
 import TextField from '../../components/TextField/TextField';
 import FormControlLabel from '../../components/FormControlLabel/FormControlLabel';

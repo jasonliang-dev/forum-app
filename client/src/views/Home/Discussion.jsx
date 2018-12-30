@@ -9,7 +9,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 
 const styles = theme => ({
   paper: {
-    margin: theme.spacing.unit,
+    margin: `${theme.spacing.unit}px 0`,
     padding: theme.spacing.unit * 2,
     color: theme.palette.text.secondary,
   },

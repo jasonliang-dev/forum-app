@@ -5,11 +5,12 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Button from '@material-ui/core/Button';
 import Nav from '../../components/Nav/Nav';
-import Home from '../Home/Home';
 import Counter from '../Counter/Counter';
+import Home from '../Home/Home';
 import Login from '../Login/Login';
-import Register from '../Register/Register';
+import NewThread from '../NewThread/NewThread';
 import NoMatch from '../NoMatch/NoMatch';
+import Register from '../Register/Register';
 
 const styles = {
   main: {
@@ -22,47 +23,50 @@ const styles = {
   },
 };
 
-const NavBar = ({ classes }) => (
+const UnstyledButtonLink = ({ classes, to, children }) => (
+  <Button component={Link} to={to} className={classes.linkButton}>
+    {children}
+  </Button>
+);
+
+const ButtonLink = withStyles(styles)(UnstyledButtonLink);
+
+const NavBar = () => (
   <Nav>
-    <Button component={Link} to="/" className={classes.linkButton}>
-      Home
-    </Button>
-    <Button component={Link} to="/counter" className={classes.linkButton}>
-      Counter
-    </Button>
-    <Button component={Link} to="/register" className={classes.linkButton}>
-      Register
-    </Button>
-    <Button component={Link} to="/login" className={classes.linkButton}>
-      Login
-    </Button>
+    <ButtonLink to="/">Home</ButtonLink>
+    <ButtonLink to="/counter">Counter</ButtonLink>
+    <ButtonLink to="/register">Register</ButtonLink>
+    <ButtonLink to="/login">Login</ButtonLink>
   </Nav>
 );
 
 const Main = () => (
   <Switch>
     <Route path="/" exact component={Home} />
-    <Route path="/counter" exact component={Counter} />
-    <Route path="/register" exact component={Register} />
-    <Route path="/login" exact component={Login} />
+    <Route path="/counter" component={Counter} />
+    <Route path="/register" component={Register} />
+    <Route path="/login" component={Login} />
+    <Route path="/threads/create" component={NewThread} />
     <Route component={NoMatch} />
   </Switch>
 );
 
 const App = ({ classes }) => (
   <Router>
-    <div>
+    <>
       <CssBaseline />
-      <NavBar classes={classes} />
+      <NavBar />
       <div className={classes.main}>
         <Main />
       </div>
-    </div>
+    </>
   </Router>
 );
 
-NavBar.propTypes = {
+UnstyledButtonLink.propTypes = {
   classes: PropTypes.shape({}).isRequired,
+  to: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 App.propTypes = {
