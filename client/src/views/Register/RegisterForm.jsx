@@ -18,28 +18,43 @@ const styles = theme => ({
 
 const RegisterForm = ({ classes, handleSubmit }) => (
   <form className={classes.form} onSubmit={handleSubmit}>
-    <FormControl margin="normal" required fullWidth>
-      <TextField id="email" type="email" name="email" label="Email" autoFocus />
-    </FormControl>
-    <FormControl margin="normal" required fullWidth>
-      <TextField id="username" type="text" name="username" label="Username" />
-    </FormControl>
-    <FormControl margin="normal" required fullWidth>
-      <TextField
-        id="password"
-        type="password"
-        name="password"
-        label="Password"
-      />
-    </FormControl>
-    <FormControl margin="normal" required fullWidth>
-      <TextField
-        id="password-confirm"
-        type="password"
-        name="passwordConfirm"
-        label="Confirm Password"
-      />
-    </FormControl>
+    <TextField
+      id="email"
+      type="email"
+      name="email"
+      label="Email"
+      margin="normal"
+      autoFocus
+      required
+      fullWidth
+    />
+    <TextField
+      id="username"
+      type="text"
+      name="username"
+      label="Username"
+      margin="normal"
+      required
+      fullWidth
+    />
+    <TextField
+      id="password"
+      type="password"
+      name="password"
+      label="Password"
+      margin="normal"
+      required
+      fullWidth
+    />
+    <TextField
+      id="password-confirm"
+      type="password"
+      name="passwordConfirm"
+      label="Confirm Password"
+      margin="normal"
+      required
+      fullWidth
+    />
     <Button
       type="submit"
       fullWidth

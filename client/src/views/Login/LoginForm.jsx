@@ -20,23 +20,25 @@ const styles = theme => ({
 
 const LoginForm = ({ classes, handleSubmit }) => (
   <form className={classes.form} onSubmit={handleSubmit}>
-    <FormControl margin="normal" required fullWidth>
-      <TextField
-        id="username"
-        type="text"
-        name="username"
-        label="Username"
-        autoFocus
-      />
-    </FormControl>
-    <FormControl margin="normal" required fullWidth>
-      <TextField
-        id="password"
-        type="password"
-        name="password"
-        label="Password"
-      />
-    </FormControl>
+    <TextField
+      id="username"
+      type="text"
+      name="username"
+      label="Username"
+      margin="normal"
+      autoFocus
+      required
+      fullWidth
+    />
+    <TextField
+      id="password"
+      type="password"
+      name="password"
+      label="Password"
+      margin="normal"
+      required
+      fullWidth
+    />
     <FormControlLabel
       name="remember"
       control={<Checkbox value="remember" color="primary" />}
