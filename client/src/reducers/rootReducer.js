@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
-import app from '../views/Counter/AppReducer';
+import app from '../views/Counter/CounterReducer';
 import home from '../views/Home/HomeReducer';
 
 export default combineReducers({

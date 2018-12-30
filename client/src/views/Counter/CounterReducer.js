@@ -1,4 +1,4 @@
-import { INCREMENT, DECREMENT } from './AppActions';
+import { INCREMENT, DECREMENT } from './CounterActions';
 
 const initialState = 0;
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { increment, decrement } from './AppActions';
+import { increment, decrement } from './CounterActions';
 
-export const DisconnectedApp = ({ counter, plus, minus }) => (
+export const DisconnectedCounter = ({ counter, plus, minus }) => (
   <div
     style={{
       margin: 20,
@@ -19,7 +19,7 @@ export const DisconnectedApp = ({ counter, plus, minus }) => (
   </div>
 );
 
-DisconnectedApp.propTypes = {
+DisconnectedCounter.propTypes = {
   counter: PropTypes.number.isRequired,
   plus: PropTypes.func.isRequired,
   minus: PropTypes.func.isRequired,
@@ -37,4 +37,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(DisconnectedApp);
+)(DisconnectedCounter);

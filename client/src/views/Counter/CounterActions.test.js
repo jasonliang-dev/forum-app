@@ -1,6 +1,6 @@
-import * as actions from './AppActions';
+import * as actions from './CounterActions';
 
-describe('App Actions', () => {
+describe('Counter Actions', () => {
   it('returns the correct type for increment', () => {
     const { INCREMENT, increment } = actions;
     expect(increment().type).toEqual(INCREMENT);

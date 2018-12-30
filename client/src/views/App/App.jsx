@@ -6,7 +6,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import Button from '@material-ui/core/Button';
 import Nav from '../../components/Nav/Nav';
 import Home from '../Home/Home';
-import Counter from '../Counter/App';
+import Counter from '../Counter/Counter';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
 import NoMatch from '../NoMatch/NoMatch';

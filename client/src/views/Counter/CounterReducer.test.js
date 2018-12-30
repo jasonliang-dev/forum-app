@@ -1,16 +1,16 @@
-import appReducer from './AppReducer';
-import { INCREMENT, DECREMENT } from './AppActions';
+import counterReducer from './CounterReducer';
+import { INCREMENT, DECREMENT } from './CounterActions';
 
-describe('App Reducer', () => {
+describe('Counter Reducer', () => {
   it('should return the initial state', () => {
-    expect(appReducer(undefined, {})).toEqual(0);
+    expect(counterReducer(undefined, {})).toEqual(0);
   });
 
   it(`should handle ${INCREMENT}`, () => {
-    expect(appReducer(0, { type: INCREMENT })).toEqual(1);
+    expect(counterReducer(0, { type: INCREMENT })).toEqual(1);
   });
 
   it(`should handle ${DECREMENT}`, () => {
-    expect(appReducer(0, { type: DECREMENT })).toEqual(-1);
+    expect(counterReducer(0, { type: DECREMENT })).toEqual(-1);
   });
 });
