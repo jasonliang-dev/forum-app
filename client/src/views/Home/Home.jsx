@@ -5,6 +5,7 @@ import compose from 'ramda/src/compose';
 import withStyles from '@material-ui/core/styles/withStyles';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Discussion from './Discussion';
 import { getThreads } from './HomeActions';
 
@@ -19,6 +20,13 @@ const styles = theme => ({
   },
   extendedIcon: {
     marginRight: theme.spacing.unit,
+  },
+  loadingSpinner: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginLeft: -20,
+    marginTop: -20,
   },
 });
 
@@ -41,7 +49,7 @@ export class DisconnectedHome extends React.Component {
     }
 
     if (isLoading) {
-      return <h1>Loading</h1>;
+      return <CircularProgress className={classes.loadingSpinner} />;
     }
 
     return (
