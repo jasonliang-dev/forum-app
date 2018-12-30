@@ -16,7 +16,7 @@ const Nav = ({ children, classes }) => (
     <AppBar position="static">
       <Toolbar>
         <Typography variant="h6" color="inherit" className={classes.grow}>
-          Home
+          My Super Cool Forum App
         </Typography>
         {children}
       </Toolbar>
