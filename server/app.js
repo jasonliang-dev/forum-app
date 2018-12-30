@@ -60,7 +60,6 @@ app.post('/users/validate', userController.validate);
 resource(app, '/users', userController);
 
 // 404
-// TODO: change this to fit client side routing
 app.get('*', (req, res, next) => {
   const err = new Error('Not Found');
   err.status = 404;
