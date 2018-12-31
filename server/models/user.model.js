@@ -8,7 +8,6 @@ const UserSchema = new Schema({
   username: { type: String, unique: true, required: true, trim: true, max: 20 },
   password: { type: String, required: true, select: false, min: 8 },
   about: { type: String },
-  threads: [{ type: ObjectId, ref: 'thread' }],
   friends: [{ type: ObjectId, ref: 'user' }],
   joinedDate: { type: Date, required: true, default: Date.now },
   lastLogin: { type: Date },

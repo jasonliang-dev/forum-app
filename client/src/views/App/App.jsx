@@ -12,16 +12,17 @@ import NewThread from '../NewThread/NewThread';
 import NoMatch from '../NoMatch/NoMatch';
 import Register from '../Register/Register';
 
-const styles = {
+const styles = theme => ({
   main: {
     margin: '0 auto',
     maxWidth: 900,
+    padding: `0 ${theme.spacing.unit * 2}px`,
   },
   linkButton: {
     marginLeft: 10,
     color: 'inherit',
   },
-};
+});
 
 const UnstyledButtonLink = ({ classes, to, children }) => (
   <Button component={Link} to={to} className={classes.linkButton}>

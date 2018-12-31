@@ -68,9 +68,8 @@ export class DisconnectedHome extends React.Component {
           Add Topic
         </Fab>
         <Typography variant="h4">Threads</Typography>
-        <Discussion title="Foo" user="foo" />
         {threads.map(thread => (
-          <Discussion title={thread.title} user="Unknown" />
+          <Discussion title={thread.title} user={thread.owner.username} />
         ))}
       </div>
     );
