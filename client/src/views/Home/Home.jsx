@@ -69,7 +69,11 @@ export class DisconnectedHome extends React.Component {
         </Fab>
         <Typography variant="h4">Threads</Typography>
         {threads.map(thread => (
-          <Discussion title={thread.title} user={thread.owner.username} />
+          <Discussion
+            key={thread._id} // eslint-disable-line no-underscore-dangle
+            title={thread.title}
+            user={thread.owner.username}
+          />
         ))}
       </div>
     );
