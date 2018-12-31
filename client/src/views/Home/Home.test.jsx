@@ -7,7 +7,7 @@ describe('Home', () => {
     const props = {
       classes: {},
       fetchThreads: () => {},
-      threads: [],
+      data: [],
       isLoading: false,
       errorOccurred: false,
     };
@@ -19,7 +19,7 @@ describe('Home', () => {
     const props = {
       classes: {},
       fetchThreads: mockFetch,
-      threads: [],
+      data: [],
       isLoading: false,
       errorOccurred: false,
     };

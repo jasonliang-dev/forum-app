@@ -9,7 +9,8 @@ import Typography from '@material-ui/core/Typography';
 import Fab from '@material-ui/core/Fab';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Discussion from './Discussion';
-import { getThreads } from './HomeActions';
+import { fetchData } from '../../actions/fetchActions';
+import environment from '../../environment';
 
 const styles = theme => ({
   root: {
@@ -32,10 +33,10 @@ const styles = theme => ({
   },
 });
 
-const mapStateToProps = state => ({ ...state.home });
+const mapStateToProps = state => ({ ...state.fetchData });
 
 const mapDispatchToProps = dispatch => ({
-  fetchThreads: () => dispatch(getThreads),
+  fetchThreads: () => dispatch(fetchData(`${environment.endpoint}/threads`)),
 });
 
 export class DisconnectedHome extends React.Component {
@@ -45,15 +46,17 @@ export class DisconnectedHome extends React.Component {
   }
 
   render() {
-    const { classes, threads, isLoading, errorOccurred } = this.props;
+    const { classes, data, isLoading, errorOccurred } = this.props;
 
-    if (errorOccurred) {
-      return <h1>Error</h1>;
-    }
+    if (errorOccurred)
+      return (
+        <Typography variant="h4" classname={classes.root}>
+          Error fetching threads. Try again later.
+        </Typography>
+      );
 
-    if (isLoading) {
+    if (isLoading || !Array.isArray(data))
       return <CircularProgress className={classes.loadingSpinner} />;
-    }
 
     return (
       <div className={classes.root}>
@@ -61,15 +64,16 @@ export class DisconnectedHome extends React.Component {
           component={Link}
           to="/thread/create"
           variant="extended"
-          color="primary"
+          color="secondary"
           aria-label="Add"
+          disabled={!localStorage.getItem('id_token')}
           className={classes.fab}
         >
           <AddIcon className={classes.extendedIcon} />
           Add Topic
         </Fab>
         <Typography variant="h4">Threads</Typography>
-        {threads.map(thread => (
+        {data.map(thread => (
           <Discussion
             key={thread._id}
             title={thread.title}
@@ -87,7 +91,7 @@ export class DisconnectedHome extends React.Component {
 DisconnectedHome.propTypes = {
   classes: PropTypes.shape({}).isRequired,
   fetchThreads: PropTypes.func.isRequired,
-  threads: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  data: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   isLoading: PropTypes.bool.isRequired,
   errorOccurred: PropTypes.bool.isRequired,
 };

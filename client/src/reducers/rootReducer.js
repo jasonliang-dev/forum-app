@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
-import app from '../views/Counter/CounterReducer';
-import home from '../views/Home/HomeReducer';
+import counterReducer from '../views/Counter/CounterReducer';
+import fetchReducer from './fetchReducer';
 
 export default combineReducers({
-  counter: app,
-  home,
+  counter: counterReducer,
+  fetchData: fetchReducer,
   form: formReducer,
 });
