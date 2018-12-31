@@ -2,14 +2,15 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import cors from 'cors';
-import session from 'express-session';
+import passport from 'passport';
 import mongoose from 'mongoose';
 import productController from './controllers/product.controller';
-import userController from './controllers/user.controller';
 import threadController from './controllers/thread.controller';
 import replyController from './controllers/reply.controller';
 import indexRoute from './routes/index.route';
+import userRoute from './routes/user.route';
 import { resource } from './routes/utils';
+import authConfig from './config/passport';
 
 const dbURL =
   process.env.MONGODB_URI ||
@@ -40,36 +41,25 @@ app.use(cookieParser());
 // enable CORS
 app.use(cors());
 
-// track logins by using sessions
-app.use(
-  session({
-    secret: process.env.SECRET || 'no u',
-    resave: true,
-    saveUninitialized: false,
-  }),
-);
+// authentication middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+authConfig(passport);
 
 // route middleware
 app.use('/', indexRoute);
-resource(app, '/products', productController);
-resource(app, '/threads', threadController);
-resource(app, '/replies', replyController);
+resource(app, '/products/', productController);
+resource(app, '/threads/', threadController);
+resource(app, '/replies/', replyController);
 
-app.post('/users/auth', userController.authenticate);
-app.post('/users/validate', userController.validate);
-resource(app, '/users', userController);
+app.use('/users', userRoute);
 
 // 404
 app.get('*', (req, res, next) => {
   const err = new Error('Not Found');
   err.status = 404;
   next(err);
-});
-
-// catch all error handler
-// eslint-disable-next-line no-unused-vars
-app.use((err, req, res, next) => {
-  res.status(err.status || 500).send(err);
 });
 
 module.exports = app;

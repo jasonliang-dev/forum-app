@@ -1,4 +1,6 @@
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { pick } from 'ramda';
 import isEmail from 'validator/lib/isEmail';
 import User from '../models/user.model';
 import BaseController from './base.controller';
@@ -53,19 +55,32 @@ UserController.store = (req, res, next) => {
     .catch(next);
 };
 
+const generateAuthJSON = user => {
+  const token = jwt.sign({ data: user }, process.env.JWT_SECRET || 'secret', {
+    expiresIn: 1800,
+  });
+  return {
+    token,
+    id: user._id,
+    user: pick(['username', 'email'], user),
+  };
+};
+
+const passwordCompare = (req, res, next) => user =>
+  bcrypt
+    .compare(req.body.password, user.password)
+    .then(isValid =>
+      isValid ? user : res.status(401).send({ message: 'Incorrect password' }),
+    )
+    .catch(next);
+
 UserController.authenticate = (req, res, next) => {
   User.findOne({ username: req.body.username })
     .select('+password')
     .then(user => user || res.status(401).send({ message: 'User not found' }))
-    .then(user =>
-      bcrypt
-        .compare(req.body.password, user.password)
-        .then(isValid =>
-          isValid
-            ? res.send({ data: user })
-            : res.status(401).send({ message: 'Incorrect password' }),
-        ),
-    )
+    .then(passwordCompare(req, res, next))
+    .then(generateAuthJSON)
+    .then(::res.send)
     .catch(next);
 };
 
