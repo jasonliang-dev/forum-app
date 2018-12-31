@@ -18,8 +18,11 @@ const styles = theme => ({
 });
 
 const handleSubmit = history => values => {
+  const config = {
+    headers: { Authorization: `Bearer ${localStorage.getItem('id_token')}` },
+  };
   axios
-    .post(`${environment.endpoint}/threads`, values)
+    .post(`${environment.endpoint}/threads`, values, config)
     .then(() => history.push('/'))
     .catch(inspect);
 };

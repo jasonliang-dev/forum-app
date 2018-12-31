@@ -5,9 +5,9 @@ import cors from 'cors';
 import passport from 'passport';
 import mongoose from 'mongoose';
 import productController from './controllers/product.controller';
-import threadController from './controllers/thread.controller';
 import replyController from './controllers/reply.controller';
 import indexRoute from './routes/index.route';
+import threadRoute from './routes/thread.route';
 import userRoute from './routes/user.route';
 import { resource } from './routes/utils';
 import authConfig from './config/passport';
@@ -49,9 +49,12 @@ authConfig(passport);
 
 // route middleware
 app.use('/', indexRoute);
+
 resource(app, '/products/', productController);
-resource(app, '/threads/', threadController);
+
 resource(app, '/replies/', replyController);
+
+app.use('/threads', threadRoute);
 
 app.use('/users', userRoute);
 

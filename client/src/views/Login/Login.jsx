@@ -33,7 +33,14 @@ const styles = theme => ({
 const handleSubmit = history => values => {
   axios
     .post(`${environment.endpoint}/users/auth`, values)
-    .then(() => history.push('/'))
+    .then(inspect)
+    .then(({ data }) => {
+      localStorage.setItem('id_token', data.token);
+      localStorage.setItem('id', data.id);
+      localStorage.setItem('username', data.user.username);
+      localStorage.setItem('email', data.email);
+      history.push('/');
+    })
     .catch(inspect);
 };
 
