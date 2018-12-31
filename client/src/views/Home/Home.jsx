@@ -16,7 +16,7 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 4,
   },
   fab: {
-    position: 'absolute',
+    position: 'fixed',
     bottom: theme.spacing.unit * 4,
     right: theme.spacing.unit * 4,
   },
@@ -46,6 +46,7 @@ export class DisconnectedHome extends React.Component {
 
   render() {
     const { classes, threads, isLoading, errorOccurred } = this.props;
+
     if (errorOccurred) {
       return <h1>Error</h1>;
     }

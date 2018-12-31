@@ -32,14 +32,32 @@ const UnstyledButtonLink = ({ classes, to, children }) => (
 
 const ButtonLink = withStyles(styles)(UnstyledButtonLink);
 
-const NavBar = () => (
+const clearStorageAndReload = () => {
+  localStorage.clear();
+  window.location.reload();
+};
+
+const UnstyledNavBar = ({ classes }) => (
   <Nav>
     <ButtonLink to="/">Home</ButtonLink>
     <ButtonLink to="/counter">Counter</ButtonLink>
-    <ButtonLink to="/register">Register</ButtonLink>
-    <ButtonLink to="/login">Login</ButtonLink>
+    {localStorage.getItem('id_token') ? (
+      <>
+        <ButtonLink to="/profile">My Profile</ButtonLink>
+        <Button onClick={clearStorageAndReload} className={classes.linkButton}>
+          Logout
+        </Button>
+      </>
+    ) : (
+      <>
+        <ButtonLink to="/register">Register</ButtonLink>
+        <ButtonLink to="/login">Login</ButtonLink>
+      </>
+    )}
   </Nav>
 );
+
+const NavBar = withStyles(styles)(UnstyledNavBar);
 
 const Main = () => (
   <Switch>
@@ -68,6 +86,10 @@ UnstyledButtonLink.propTypes = {
   classes: PropTypes.shape({}).isRequired,
   to: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
+};
+
+UnstyledNavBar.propTypes = {
+  classes: PropTypes.shape({}).isRequired,
 };
 
 App.propTypes = {
