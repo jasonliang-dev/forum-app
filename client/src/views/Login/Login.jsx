@@ -38,7 +38,7 @@ const handleSubmit = history => values => {
       localStorage.setItem('id_token', data.token);
       localStorage.setItem('id', data.id);
       localStorage.setItem('username', data.user.username);
-      localStorage.setItem('email', data.email);
+      localStorage.setItem('email', data.user.email);
       history.push('/');
     })
     .catch(inspect);

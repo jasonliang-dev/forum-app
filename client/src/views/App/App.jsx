@@ -65,7 +65,7 @@ const Main = () => (
     <Route path="/counter" component={Counter} />
     <Route path="/register" component={Register} />
     <Route path="/login" component={Login} />
-    <Route path="/threads/create" component={NewThread} />
+    <Route path="/thread/create" component={NewThread} />
     <Route component={NoMatch} />
   </Switch>
 );

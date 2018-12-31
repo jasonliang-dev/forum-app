@@ -59,7 +59,7 @@ export class DisconnectedHome extends React.Component {
       <div className={classes.root}>
         <Fab
           component={Link}
-          to="/threads/create"
+          to="/thread/create"
           variant="extended"
           color="primary"
           aria-label="Add"
@@ -71,9 +71,12 @@ export class DisconnectedHome extends React.Component {
         <Typography variant="h4">Threads</Typography>
         {threads.map(thread => (
           <Discussion
-            key={thread._id} // eslint-disable-line no-underscore-dangle
+            key={thread._id}
             title={thread.title}
             user={thread.owner.username}
+            to={`thread/${thread._id}`}
+            views={thread.viewCount}
+            replyCount={thread.replies.length}
           />
         ))}
       </div>
