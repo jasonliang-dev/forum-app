@@ -7,6 +7,9 @@ describe('Discussion', () => {
     const props = {
       title: 'foo',
       user: 'alice',
+      to: '/',
+      views: 0,
+      replyCount: 0,
     };
     shallow(<Discussion {...props} />);
   });
