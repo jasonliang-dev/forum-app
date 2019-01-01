@@ -6,45 +6,79 @@ import {
   FETCH_FAILURE,
 } from '../actions/fetchActions';
 
-const initialState = {
-  data: undefined,
-  isLoading: false,
-  errorOccurred: false,
-};
-
 describe('Fetch Reducer', () => {
   it('should return the initial state', () => {
+    const expectedState = {
+      serving: '',
+    };
     const newState = fetchReducer(undefined, {});
-    expect(newState.data).toBe(undefined);
-    expect(newState.isLoading).toBe(false);
-    expect(newState.errorOccurred).toBe(false);
+    expect(newState).toEqual(expectedState);
   });
 
   it(`should handle ${FETCH_REQUEST}`, () => {
+    const previousState = {
+      serving: '',
+    };
     const action = {
       type: FETCH_REQUEST,
+      payload: 'my-page',
     };
-    const newState = fetchReducer(initialState, action);
-    expect(newState.isLoading).toBe(true);
+    const expectedState = {
+      serving: 'my-page',
+      'my-page': {
+        isLoading: true,
+        errorOccurred: false,
+      },
+    };
+    const newState = fetchReducer(previousState, action);
+    expect(newState).toEqual(expectedState);
   });
 
   it(`should handle ${FETCH_SUCCESS}`, () => {
+    const previousState = {
+      serving: 'my-page',
+      'my-page': {
+        isLoading: true,
+        errorOccurred: false,
+      },
+    };
     const action = {
       type: FETCH_SUCCESS,
       payload: ['a', 'b', 'c'],
     };
-    const newState = fetchReducer(initialState, action);
-    expect(newState.data.length).toBe(3);
-    expect(newState.data.indexOf('b')).toBe(1);
-    expect(newState.isLoading).toBe(false);
-    expect(newState.errorOccurred).toBe(false);
+    const expectedState = {
+      serving: 'my-page',
+      'my-page': {
+        data: ['a', 'b', 'c'],
+        isLoading: false,
+        errorOccurred: false,
+      },
+    };
+    const newState = fetchReducer(previousState, action);
+    expect(newState).toEqual(expectedState);
   });
 
   it(`should handle ${FETCH_FAILURE}`, () => {
+    const previousState = {
+      serving: 'my-page',
+      'my-page': {
+        isLoading: true,
+        errorOccurred: false,
+      },
+    };
     const action = {
       type: FETCH_FAILURE,
+      payload: 'pretend this is an error object',
     };
-    const newState = fetchReducer(initialState, action);
-    expect(newState.errorOccurred).toBe(true);
+    const expectedState = {
+      serving: 'my-page',
+      'my-page': {
+        isLoading: false,
+        errorOccurred: true,
+        error: 'pretend this is an error object',
+      },
+    };
+    const newState = fetchReducer(previousState, action);
+    expect(newState).toEqual(expectedState);
   });
 });

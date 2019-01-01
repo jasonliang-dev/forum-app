@@ -1,11 +1,14 @@
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { sleep } from '../utils';
 
 export const FETCH_REQUEST = 'FETCH_REQUEST';
 export const FETCH_SUCCESS = 'FETCH_SUCCESS';
 export const FETCH_FAILURE = 'FETCH_FAILURE';
 
-export const requestData = () => ({
+export const requestData = pageName => ({
   type: FETCH_REQUEST,
+  payload: pageName,
 });
 
 export const fetchSuccess = payload => ({
@@ -13,16 +16,24 @@ export const fetchSuccess = payload => ({
   payload,
 });
 
-export const fetchFailure = () => ({
+export const fetchFailure = err => ({
   type: FETCH_FAILURE,
+  payload: err,
 });
 
-export const fetchData = url => dispatch => {
-  dispatch(requestData());
+export const fetchData = (pageName, url) => dispatch => {
+  dispatch(requestData(pageName));
 
   axios
     .get(url)
+    .then(sleep(400)) // ahahaha
     .then(response => response.data)
     .then(data => dispatch(fetchSuccess(data)))
-    .catch(() => dispatch(fetchFailure()));
+    .catch(err => dispatch(fetchFailure(err)));
 };
+
+export const connectFetcher = pageName =>
+  connect(
+    state => ({ ...state.fetchData[pageName] }),
+    dispatch => ({ fetchData: url => dispatch(fetchData(pageName, url)) }),
+  );

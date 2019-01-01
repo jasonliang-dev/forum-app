@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import compose from 'ramda/src/compose';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -9,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Fab from '@material-ui/core/Fab';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Discussion from './Discussion';
-import { fetchData } from '../../actions/fetchActions';
+import { connectFetcher } from '../../actions/fetchActions';
 import environment from '../../environment';
 
 const styles = theme => ({
@@ -33,29 +32,23 @@ const styles = theme => ({
   },
 });
 
-const mapStateToProps = state => ({ ...state.fetchData });
-
-const mapDispatchToProps = dispatch => ({
-  fetchThreads: () => dispatch(fetchData(`${environment.endpoint}/threads`)),
-});
-
 export class DisconnectedHome extends React.Component {
   componentDidMount() {
-    const { fetchThreads } = this.props;
-    fetchThreads();
+    const { fetchData } = this.props;
+    fetchData(`${environment.endpoint}/threads`);
   }
 
   render() {
-    const { classes, data, isLoading, errorOccurred } = this.props;
+    const { classes, data, errorOccurred } = this.props;
 
     if (errorOccurred)
       return (
-        <Typography variant="h4" classname={classes.root}>
+        <Typography variant="h4" className={classes.root}>
           Error fetching threads. Try again later.
         </Typography>
       );
 
-    if (isLoading || !Array.isArray(data))
+    if (!data || data.length === 0)
       return <CircularProgress className={classes.loadingSpinner} />;
 
     return (
@@ -90,16 +83,17 @@ export class DisconnectedHome extends React.Component {
 
 DisconnectedHome.propTypes = {
   classes: PropTypes.shape({}).isRequired,
-  fetchThreads: PropTypes.func.isRequired,
-  data: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  errorOccurred: PropTypes.bool.isRequired,
+  fetchData: PropTypes.func.isRequired,
+  data: PropTypes.arrayOf(PropTypes.shape({})),
+  errorOccurred: PropTypes.bool,
+};
+
+DisconnectedHome.defaultProps = {
+  data: [],
+  errorOccurred: false,
 };
 
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  ),
+  connectFetcher('home'),
   withStyles(styles),
 )(DisconnectedHome);

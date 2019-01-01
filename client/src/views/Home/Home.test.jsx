@@ -6,10 +6,7 @@ describe('Home', () => {
   it('renders without crashing', () => {
     const props = {
       classes: {},
-      fetchThreads: () => {},
-      data: [],
-      isLoading: false,
-      errorOccurred: false,
+      fetchData: () => {},
     };
     shallow(<Home {...props} />);
   });
@@ -18,10 +15,7 @@ describe('Home', () => {
     const mockFetch = jest.fn();
     const props = {
       classes: {},
-      fetchThreads: mockFetch,
-      data: [],
-      isLoading: false,
-      errorOccurred: false,
+      fetchData: mockFetch,
     };
     shallow(<Home {...props} />);
     expect(mockFetch.mock.calls.length).toBe(1);
