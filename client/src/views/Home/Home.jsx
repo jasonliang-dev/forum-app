@@ -65,7 +65,9 @@ export class DisconnectedHome extends React.Component {
           <AddIcon className={classes.extendedIcon} />
           Add Topic
         </Fab>
-        <Typography variant="h4">Threads</Typography>
+        <Typography variant="h4" gutterBottom component="h2">
+          Threads
+        </Typography>
         {data.map(thread => (
           <Discussion
             key={thread._id}
