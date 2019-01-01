@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import compose from 'ramda/src/compose';
 import ReplyIcon from '@material-ui/icons/Reply';
 import Typography from '@material-ui/core/Typography';
@@ -73,6 +74,9 @@ export class DisconnectedThread extends React.Component {
           {payload.data.title}
         </Typography>
         <Paper className={classes.paper}>
+          <Typography variant="caption">
+            posted {moment(payload.data.created).fromNow()}
+          </Typography>
           <Typography variant="body1">{payload.data.body}</Typography>
         </Paper>
         <Paper className={classes.paper}>

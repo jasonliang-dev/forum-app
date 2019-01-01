@@ -26,7 +26,7 @@ export const fetchData = (pageName, url) => dispatch => {
 
   axios
     .get(url)
-    .then(sleep(400)) // ahahaha
+    .then(sleep(200)) // ahahaha
     .then(response => response.data)
     .then(data => dispatch(fetchSuccess(data)))
     .catch(err => dispatch(fetchFailure(err)));
