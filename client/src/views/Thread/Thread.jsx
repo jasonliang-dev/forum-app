@@ -128,11 +128,17 @@ export class DisconnectedThread extends React.Component {
           <Typography variant="h6" className={classes.replyHeader}>
             Replies
           </Typography>
-          {payload.data.replies.map(({ _id, body, created, user }) => (
-            <Reply key={_id} username={user.username} created={created}>
-              {body}
-            </Reply>
-          ))}
+          {payload.data.replies.length ? (
+            payload.data.replies.map(({ _id, body, created, user }) => (
+              <Reply key={_id} username={user.username} created={created}>
+                {body}
+              </Reply>
+            ))
+          ) : (
+            <Typography variant="caption">
+              No comments in this thread. Be the first!
+            </Typography>
+          )}
         </Paper>
         <Paper className={classes.paper}>
           <ThreadReplyForm onSubmit={this.handleSubmit} />
