@@ -9,13 +9,6 @@ const { store } = ThreadController;
 ThreadController.index = (req, res, next) => {
   Thread.find({})
     .populate('owner', 'username')
-    .populate({
-      path: 'replies',
-      populate: {
-        path: 'userId',
-        select: 'username',
-      },
-    })
     .then(threads => res.send(threads))
     .catch(next);
 };
