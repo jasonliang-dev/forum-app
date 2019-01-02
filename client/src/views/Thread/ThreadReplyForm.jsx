@@ -33,7 +33,7 @@ const ThreadReplyForm = ({ classes, handleSubmit }) => (
       color="primary"
       className={classes.submit}
     >
-      Create
+      Post Reply
     </Button>
   </form>
 );
