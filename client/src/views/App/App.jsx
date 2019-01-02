@@ -46,7 +46,11 @@ const UnstyledNavBar = ({ classes }) => (
     {localStorage.getItem('id_token') ? (
       <>
         <ButtonLink to="/profile">My Profile</ButtonLink>
-        <Button onClick={clearStorageAndReload} className={classes.linkButton}>
+        <Button
+          variant="outlined"
+          onClick={clearStorageAndReload}
+          className={classes.linkButton}
+        >
           Logout
         </Button>
       </>

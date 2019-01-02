@@ -13,7 +13,7 @@ const styles = {
 
 const Nav = ({ children, classes }) => (
   <div className={classes.grow}>
-    <AppBar position="static">
+    <AppBar position="static" color="default">
       <Toolbar>
         <Typography variant="h6" color="inherit" className={classes.grow}>
           My Super Cool Forum App
