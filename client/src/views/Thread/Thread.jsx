@@ -47,35 +47,38 @@ const styles = theme => ({
   replyHeader: {
     marginBottom: theme.spacing.unit * 2,
   },
-  replyUsername: {
+  messageUsername: {
     marginRight: theme.spacing.unit,
     display: 'inline',
   },
 });
 
-const UnstyledReply = ({ classes, username, children, created, ...rest }) => (
-  <>
-    <Divider />
-    <div className={classes.reply} {...rest}>
-      <Grid container>
-        <Grid item>
-          <Avatar className={classes.icon}>{username[0]}</Avatar>
-        </Grid>
-        <Grid item>
-          <Typography variant="body2" className={classes.replyUsername}>
-            {username}
-          </Typography>
-          <Typography variant="caption" className={classes.inline}>
-            posted {moment(created).fromNow()}
-          </Typography>
-          <Typography variant="body1">{children}</Typography>
-        </Grid>
+const UnstyledUserMessage = ({
+  classes,
+  username,
+  children,
+  created,
+  ...rest
+}) => (
+  <div {...rest}>
+    <Grid container>
+      <Grid item>
+        <Avatar className={classes.icon}>{username[0]}</Avatar>
       </Grid>
-    </div>
-  </>
+      <Grid item>
+        <Typography variant="body2" className={classes.messageUsername}>
+          {username}
+        </Typography>
+        <Typography variant="caption" className={classes.inline}>
+          posted {moment(created).fromNow()}
+        </Typography>
+        <Typography variant="body1">{children}</Typography>
+      </Grid>
+    </Grid>
+  </div>
 );
 
-const Reply = withStyles(styles)(UnstyledReply);
+const UserMessage = withStyles(styles)(UnstyledUserMessage);
 
 export class DisconnectedThread extends React.Component {
   constructor(props) {
@@ -97,7 +100,11 @@ export class DisconnectedThread extends React.Component {
     const config = {
       headers: { Authorization: `Bearer ${localStorage.getItem('id_token')}` },
     };
-    axios.post(`${environment.endpoint}/replies`, data, config).catch(inspect);
+    axios
+      .post(`${environment.endpoint}/replies`, data, config)
+      .then(response => response.data.data[1])
+      .then(inspect)
+      .catch(inspect);
   }
 
   render() {
@@ -113,27 +120,37 @@ export class DisconnectedThread extends React.Component {
     if (!payload || !payload.data)
       return <CircularProgress className={classes.loadingSpinner} />;
 
+    const { title, owner, body, created, replies } = payload.data;
+
     return (
       <div className={classes.root}>
         <Typography variant="h4" gutterBottom component="h2">
-          {payload.data.title}
+          {title}
         </Typography>
         <Paper className={classes.paper}>
-          <Typography variant="caption">
-            posted {moment(payload.data.created).fromNow()}
-          </Typography>
-          <Typography variant="body1">{payload.data.body}</Typography>
+          <UserMessage username={owner.username} created={created}>
+            {body}
+          </UserMessage>
         </Paper>
         <Paper className={classes.paper}>
           <Typography variant="h6" className={classes.replyHeader}>
             Replies
           </Typography>
-          {payload.data.replies.length ? (
-            payload.data.replies.map(({ _id, body, created, user }) => (
-              <Reply key={_id} username={user.username} created={created}>
-                {body}
-              </Reply>
-            ))
+          {replies.length ? (
+            replies.map(
+              ({ _id, body: replyBody, created: replyCreated, user }) => (
+                <div key={_id}>
+                  <Divider />
+                  <UserMessage
+                    username={user.username}
+                    created={replyCreated}
+                    className={classes.reply}
+                  >
+                    {replyBody}
+                  </UserMessage>
+                </div>
+              ),
+            )
           ) : (
             <Typography variant="caption">
               No comments in this thread. Be the first!
