@@ -1,29 +1,23 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import moment from 'moment';
 import compose from 'ramda/src/compose';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-import Avatar from '@material-ui/core/Avatar';
 import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import { connectFetcher } from '../../actions/fetchActions';
 import environment from '../../environment';
 import ThreadReplyForm from './ThreadReplyForm';
+import UserMessage from './UserMessage';
+import { addReply, clearReplies } from './ThreadActions';
 import { inspect } from '../../utils';
 
 const styles = theme => ({
   root: {
     marginTop: theme.spacing.unit * 4,
-  },
-  icon: {
-    marginRight: theme.spacing.unit * 2,
-  },
-  inline: {
-    display: 'inline',
   },
   fab: {
     position: 'fixed',
@@ -47,38 +41,16 @@ const styles = theme => ({
   replyHeader: {
     marginBottom: theme.spacing.unit * 2,
   },
-  messageUsername: {
-    marginRight: theme.spacing.unit,
-    display: 'inline',
-  },
 });
 
-const UnstyledUserMessage = ({
-  classes,
-  username,
-  children,
-  created,
-  ...rest
-}) => (
-  <div {...rest}>
-    <Grid container>
-      <Grid item>
-        <Avatar className={classes.icon}>{username[0]}</Avatar>
-      </Grid>
-      <Grid item>
-        <Typography variant="body2" className={classes.messageUsername}>
-          {username}
-        </Typography>
-        <Typography variant="caption" className={classes.inline}>
-          posted {moment(created).fromNow()}
-        </Typography>
-        <Typography variant="body1">{children}</Typography>
-      </Grid>
-    </Grid>
-  </div>
-);
+const mapStateToProps = state => ({
+  additionalReplies: state.currentThread.additionalReplies,
+});
 
-const UserMessage = withStyles(styles)(UnstyledUserMessage);
+const mapDispatchToProps = dispatch => ({
+  addToReplyList: reply => dispatch(addReply(reply)),
+  clearReplyStore: () => dispatch(clearReplies()),
+});
 
 export class DisconnectedThread extends React.Component {
   constructor(props) {
@@ -87,12 +59,13 @@ export class DisconnectedThread extends React.Component {
   }
 
   componentDidMount() {
-    const { fetchData, match } = this.props;
+    const { fetchData, clearReplyStore, match } = this.props;
+    clearReplyStore();
     fetchData(`${environment.endpoint}/threads/${match.params.id}`);
   }
 
   handleSubmit(values) {
-    const { match } = this.props;
+    const { addToReplyList, match } = this.props;
     const data = {
       ...values,
       threadId: match.params.id,
@@ -103,12 +76,17 @@ export class DisconnectedThread extends React.Component {
     axios
       .post(`${environment.endpoint}/replies`, data, config)
       .then(response => response.data.data[1])
-      .then(inspect)
+      .then(addToReplyList)
       .catch(inspect);
   }
 
   render() {
-    const { classes, data: payload, errorOccurred } = this.props;
+    const {
+      classes,
+      additionalReplies,
+      data: payload,
+      errorOccurred,
+    } = this.props;
 
     if (errorOccurred)
       return (
@@ -120,7 +98,9 @@ export class DisconnectedThread extends React.Component {
     if (!payload || !payload.data)
       return <CircularProgress className={classes.loadingSpinner} />;
 
-    const { title, owner, body, created, replies } = payload.data;
+    const { title, owner, body, created, replies: dataReplies } = payload.data;
+
+    const replies = [...dataReplies, ...additionalReplies];
 
     return (
       <div className={classes.root}>
@@ -167,6 +147,9 @@ export class DisconnectedThread extends React.Component {
 
 DisconnectedThread.propTypes = {
   classes: PropTypes.shape({}).isRequired,
+  additionalReplies: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  addToReplyList: PropTypes.func.isRequired,
+  clearReplyStore: PropTypes.func.isRequired,
   fetchData: PropTypes.func.isRequired,
   data: PropTypes.shape({}),
   match: PropTypes.shape({}).isRequired,
@@ -179,6 +162,10 @@ DisconnectedThread.defaultProps = {
 };
 
 export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
   connectFetcher('thread'),
   withStyles(styles),
 )(DisconnectedThread);
