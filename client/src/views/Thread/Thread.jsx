@@ -1,16 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 import moment from 'moment';
 import compose from 'ramda/src/compose';
-import ReplyIcon from '@material-ui/icons/Reply';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Fab from '@material-ui/core/Fab';
 import { connectFetcher } from '../../actions/fetchActions';
 import environment from '../../environment';
+import ThreadReplyForm from './ThreadReplyForm';
+import { inspect } from '../../utils';
 
 const styles = theme => ({
   root: {
@@ -20,9 +20,6 @@ const styles = theme => ({
     position: 'fixed',
     bottom: theme.spacing.unit * 4,
     right: theme.spacing.unit * 4,
-  },
-  extendedIcon: {
-    marginRight: theme.spacing.unit,
   },
   paper: {
     padding: theme.spacing.unit * 3,
@@ -35,16 +32,37 @@ const styles = theme => ({
     marginLeft: -20,
     marginTop: -20,
   },
+  replyBox: {
+    position: 'fixed',
+    bottom: theme.spacing.unit,
+  },
 });
 
 export class DisconnectedThread extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
   componentDidMount() {
     const { fetchData, match } = this.props;
     fetchData(`${environment.endpoint}/threads/${match.params.id}`);
   }
 
+  handleSubmit(values) {
+    const { match } = this.props;
+    const data = {
+      ...values,
+      threadId: match.params.id,
+    };
+    const config = {
+      headers: { Authorization: `Bearer ${localStorage.getItem('id_token')}` },
+    };
+    axios.post(`${environment.endpoint}/replies`, data, config).catch(inspect);
+  }
+
   render() {
-    const { classes, data: payload, errorOccurred, match } = this.props;
+    const { classes, data: payload, errorOccurred } = this.props;
 
     if (errorOccurred)
       return (
@@ -58,18 +76,6 @@ export class DisconnectedThread extends React.Component {
 
     return (
       <div className={classes.root}>
-        <Fab
-          component={Link}
-          to={`/threads/reply/${match.params.id}`}
-          variant="extended"
-          color="secondary"
-          aria-label="Reply"
-          disabled={!localStorage.getItem('id_token')}
-          className={classes.fab}
-        >
-          <ReplyIcon className={classes.extendedIcon} />
-          Reply to thread
-        </Fab>
         <Typography variant="h4" gutterBottom component="h2">
           {payload.data.title}
         </Typography>
@@ -81,6 +87,15 @@ export class DisconnectedThread extends React.Component {
         </Paper>
         <Paper className={classes.paper}>
           <Typography variant="h6">Replies</Typography>
+          {payload.data.replies.map(({ body, user }) => (
+            <div>
+              <Typography variant="body1">{user.username}</Typography>
+              <Typography variant="body1">{body}</Typography>
+            </div>
+          ))}
+        </Paper>
+        <Paper className={classes.paper}>
+          <ThreadReplyForm onSubmit={this.handleSubmit} />
         </Paper>
       </div>
     );

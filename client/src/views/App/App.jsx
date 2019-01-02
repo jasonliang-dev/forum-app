@@ -10,7 +10,6 @@ import Home from '../Home/Home';
 import Login from '../Login/Login';
 import NewThread from '../NewThread/NewThread';
 import Thread from '../Thread/Thread';
-import ThreadReply from '../ThreadReply/ThreadReply';
 import NoMatch from '../NoMatch/NoMatch';
 import Register from '../Register/Register';
 
@@ -68,7 +67,6 @@ const Main = () => (
     <Route path="/register" component={Register} />
     <Route path="/login" component={Login} />
     <Route path="/thread/create" component={NewThread} />
-    <Route path="/thread/reply/:id" component={ThreadReply} />
     <Route path="/thread/:id" component={Thread} />
     <Route component={NoMatch} />
   </Switch>

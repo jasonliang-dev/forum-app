@@ -6,7 +6,7 @@ import BaseController from './base.controller';
 const ReplyController = new BaseController(Reply);
 
 ReplyController.store = (req, res, next) => {
-  req.body.userId = req.user._id;
+  req.body.user = req.user._id;
 
   const reply = new Reply(req.body);
 
