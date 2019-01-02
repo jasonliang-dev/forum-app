@@ -4,12 +4,10 @@ import logger from 'morgan';
 import cors from 'cors';
 import passport from 'passport';
 import mongoose from 'mongoose';
-import productController from './controllers/product.controller';
-import replyController from './controllers/reply.controller';
+import replyRoute from './routes/reply.route';
 import indexRoute from './routes/index.route';
 import threadRoute from './routes/thread.route';
 import userRoute from './routes/user.route';
-import { resource } from './routes/utils';
 import authConfig from './config/passport';
 
 const dbURL =
@@ -49,13 +47,8 @@ authConfig(passport);
 
 // route middleware
 app.use('/', indexRoute);
-
-resource(app, '/products/', productController);
-
-resource(app, '/replies/', replyController);
-
+app.use('/replies', replyRoute);
 app.use('/threads', threadRoute);
-
 app.use('/users', userRoute);
 
 // 404
