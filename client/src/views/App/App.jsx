@@ -16,6 +16,7 @@ import Register from '../Register/Register';
 const styles = theme => ({
   main: {
     margin: '0 auto',
+    marginBottom: theme.spacing.unit * 8,
     maxWidth: 900,
     padding: `0 ${theme.spacing.unit * 2}px`,
   },
