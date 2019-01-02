@@ -19,7 +19,10 @@ ReplyController.store = (req, res, next) => {
         thread || res.status(404).send({ message: 'Cannot find thread' }),
     );
 
-    const storeToCollection = reply.save();
+    const storeToCollection = reply
+      .populate('user', 'username')
+      .save()
+      .then(data => data.execPopulate());
 
     Promise.all([pushToThread, storeToCollection])
       .then(data => res.send({ data, message: 'created reply' }))
