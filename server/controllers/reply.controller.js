@@ -10,24 +10,25 @@ ReplyController.store = (req, res, next) => {
 
   const reply = new Reply(req.body);
 
-  if (!isMongoId(req.body.threadId)) res.sendStatus(404);
-  else {
-    const pushToThread = Thread.findByIdAndUpdate(req.body.threadId, {
-      $push: { replies: reply },
-    }).then(
-      thread =>
-        thread || res.status(404).send({ message: 'Cannot find thread' }),
-    );
-
-    const storeToCollection = reply
-      .populate('user', 'username')
-      .save()
-      .then(data => data.execPopulate());
-
-    Promise.all([pushToThread, storeToCollection])
-      .then(data => res.send({ data, message: 'created reply' }))
-      .catch(next);
+  if (!isMongoId(req.body.threadId)) {
+    res.sendStatus(404);
+    return;
   }
+
+  const pushToThread = Thread.findByIdAndUpdate(req.body.threadId, {
+    $push: { replies: reply },
+  }).then(
+    thread => thread || res.status(404).send({ message: 'Cannot find thread' }),
+  );
+
+  const storeToCollection = reply
+    .populate('user', 'username')
+    .save()
+    .then(data => data.execPopulate());
+
+  Promise.all([pushToThread, storeToCollection])
+    .then(data => res.send({ data, message: 'created reply' }))
+    .catch(next);
 };
 
 export default ReplyController;
