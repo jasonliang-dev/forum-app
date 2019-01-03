@@ -58,7 +58,7 @@ export class DisconnectedHome extends React.Component {
           component={Link}
           to="/thread/create"
           variant="extended"
-          color="secondary"
+          color="primary"
           aria-label="Add"
           disabled={!localStorage.getItem('id_token')}
           className={classes.fab}

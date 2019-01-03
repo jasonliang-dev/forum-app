@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import uuidv1 from 'uuid/v1';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
@@ -20,7 +21,7 @@ const styles = theme => ({
 
 const UserMessage = ({ classes, username, children, created, ...rest }) => (
   <div {...rest}>
-    <Grid container>
+    <Grid container wrap="nowrap">
       <Grid item>
         <Avatar className={classes.icon}>{username[0]}</Avatar>
       </Grid>
@@ -31,7 +32,14 @@ const UserMessage = ({ classes, username, children, created, ...rest }) => (
         <Typography variant="caption" className={classes.inline}>
           posted {moment(created).fromNow()}
         </Typography>
-        <Typography variant="body1">{children}</Typography>
+        <Typography variant="body1">
+          {children.split('\n').map(paragraph => (
+            <React.Fragment key={uuidv1()}>
+              {paragraph}
+              <br />
+            </React.Fragment>
+          ))}
+        </Typography>
       </Grid>
     </Grid>
   </div>

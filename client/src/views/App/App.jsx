@@ -22,12 +22,11 @@ const styles = theme => ({
   },
   linkButton: {
     marginLeft: 10,
-    color: 'inherit',
   },
 });
 
-const UnstyledButtonLink = ({ classes, to, children }) => (
-  <Button component={Link} to={to} className={classes.linkButton}>
+const UnstyledButtonLink = ({ classes, to, children, ...rest }) => (
+  <Button component={Link} to={to} className={classes.linkButton} {...rest}>
     {children}
   </Button>
 );
@@ -48,6 +47,7 @@ const UnstyledNavBar = ({ classes }) => (
         <ButtonLink to="/profile">My Profile</ButtonLink>
         <Button
           variant="outlined"
+          color="primary"
           onClick={clearStorageAndReload}
           className={classes.linkButton}
         >
@@ -56,8 +56,12 @@ const UnstyledNavBar = ({ classes }) => (
       </>
     ) : (
       <>
-        <ButtonLink to="/register">Register</ButtonLink>
-        <ButtonLink to="/login">Login</ButtonLink>
+        <ButtonLink variant="outlined" to="/register">
+          Register
+        </ButtonLink>
+        <ButtonLink variant="outlined" to="/login">
+          Login
+        </ButtonLink>
       </>
     )}
   </Nav>

@@ -119,7 +119,7 @@ export class DisconnectedThread extends React.Component {
           {replies.length ? (
             replies.map(
               ({ _id, body: replyBody, created: replyCreated, user }) => (
-                <div key={_id}>
+                <React.Fragment key={_id}>
                   <Divider />
                   <UserMessage
                     username={user.username}
@@ -128,7 +128,7 @@ export class DisconnectedThread extends React.Component {
                   >
                     {replyBody}
                   </UserMessage>
-                </div>
+                </React.Fragment>
               ),
             )
           ) : (
