@@ -7,7 +7,6 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Divider from '@material-ui/core/Divider';
 import { connectFetcher } from '../../actions/fetchActions';
 import environment from '../../environment';
 import ThreadReplyForm from './ThreadReplyForm';
@@ -36,7 +35,7 @@ const styles = theme => ({
     marginTop: -20,
   },
   reply: {
-    margin: `${theme.spacing.unit * 2}px 0`,
+    margin: `${theme.spacing.unit * 3}px 0`,
   },
   replyHeader: {
     marginBottom: theme.spacing.unit * 2,
@@ -119,16 +118,14 @@ export class DisconnectedThread extends React.Component {
           {replies.length ? (
             replies.map(
               ({ _id, body: replyBody, created: replyCreated, user }) => (
-                <React.Fragment key={_id}>
-                  <Divider />
-                  <UserMessage
-                    username={user.username}
-                    created={replyCreated}
-                    className={classes.reply}
-                  >
-                    {replyBody}
-                  </UserMessage>
-                </React.Fragment>
+                <UserMessage
+                  key={_id}
+                  username={user.username}
+                  created={replyCreated}
+                  className={classes.reply}
+                >
+                  {replyBody}
+                </UserMessage>
               ),
             )
           ) : (
