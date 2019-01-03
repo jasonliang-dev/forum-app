@@ -1,11 +1,9 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import withStyles from '@material-ui/core/styles/withStyles';
-import Button from '@material-ui/core/Button';
-import Nav from '../../components/Nav/Nav';
-import Counter from '../Counter/Counter';
+import Navbar from './Navbar';
 import Home from '../Home/Home';
 import Login from '../Login/Login';
 import NewThread from '../NewThread/NewThread';
@@ -20,59 +18,11 @@ const styles = theme => ({
     maxWidth: 900,
     padding: `0 ${theme.spacing.unit * 2}px`,
   },
-  linkButton: {
-    marginLeft: 10,
-  },
 });
-
-const UnstyledButtonLink = ({ classes, to, children, ...rest }) => (
-  <Button component={Link} to={to} className={classes.linkButton} {...rest}>
-    {children}
-  </Button>
-);
-
-const ButtonLink = withStyles(styles)(UnstyledButtonLink);
-
-const clearStorageAndReload = () => {
-  localStorage.clear();
-  window.location.reload();
-};
-
-const UnstyledNavBar = ({ classes }) => (
-  <Nav>
-    <ButtonLink to="/">Home</ButtonLink>
-    <ButtonLink to="/counter">Counter</ButtonLink>
-    {localStorage.getItem('id_token') ? (
-      <>
-        <ButtonLink to="/profile">My Profile</ButtonLink>
-        <Button
-          variant="outlined"
-          color="primary"
-          onClick={clearStorageAndReload}
-          className={classes.linkButton}
-        >
-          Logout
-        </Button>
-      </>
-    ) : (
-      <>
-        <ButtonLink variant="outlined" to="/register">
-          Register
-        </ButtonLink>
-        <ButtonLink variant="outlined" to="/login">
-          Login
-        </ButtonLink>
-      </>
-    )}
-  </Nav>
-);
-
-const NavBar = withStyles(styles)(UnstyledNavBar);
 
 const Main = () => (
   <Switch>
     <Route path="/" exact component={Home} />
-    <Route path="/counter" component={Counter} />
     <Route path="/register" component={Register} />
     <Route path="/login" component={Login} />
     <Route path="/thread/create" component={NewThread} />
@@ -85,23 +35,13 @@ const App = ({ classes }) => (
   <Router>
     <>
       <CssBaseline />
-      <NavBar />
+      <Navbar />
       <div className={classes.main}>
         <Main />
       </div>
     </>
   </Router>
 );
-
-UnstyledButtonLink.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
-  to: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
-};
-
-UnstyledNavBar.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
-};
 
 App.propTypes = {
   classes: PropTypes.shape({}).isRequired,
