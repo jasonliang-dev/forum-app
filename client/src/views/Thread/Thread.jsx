@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import compose from 'ramda/src/compose';
 import Typography from '@material-ui/core/Typography';
+import Fab from '@material-ui/core/Fab';
+import DeleteIcon from '@material-ui/icons/Delete';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -103,6 +105,14 @@ export class DisconnectedThread extends React.Component {
 
     return (
       <div className={classes.root}>
+        <Fab
+          color="primary"
+          aria-label="Remove"
+          disabled={localStorage.getItem('id') !== owner._id}
+          className={classes.fab}
+        >
+          <DeleteIcon />
+        </Fab>
         <Typography variant="h4" gutterBottom component="h2">
           {title}
         </Typography>
