@@ -9,7 +9,7 @@ router.post('/auth', userController.authenticate);
 router.post('/validate', userController.validate);
 router.get(
   '/profile',
-  passport.authenticate('jwt', { session: false }),
+  passport.authenticate('user', { session: false }),
   (req, res) => {
     res.json({ user: req.user });
   },

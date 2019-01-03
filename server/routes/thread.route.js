@@ -7,8 +7,14 @@ const router = express.Router();
 
 router.post(
   '/',
-  passport.authenticate('jwt', { session: false }),
+  passport.authenticate('user', { session: false }),
   threadController.store,
+);
+
+router.delete(
+  '/:id',
+  passport.authenticate('user', { session: false }),
+  threadController.destroy,
 );
 
 resource(router, '/', threadController);
