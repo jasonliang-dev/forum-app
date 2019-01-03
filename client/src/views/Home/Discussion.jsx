@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import ChatIcon from '@material-ui/icons/Chat';
 import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
 import EyeIcon from '@material-ui/icons/RemoveRedEye';
@@ -25,9 +26,24 @@ const styles = theme => ({
   counts: {
     textAlign: 'right',
   },
+  user: {
+    marginRight: theme.spacing.unit,
+    display: 'inline',
+  },
+  inline: {
+    display: 'inline',
+  },
 });
 
-const Discussion = ({ title, user, views, replyCount, classes, to }) => (
+const Discussion = ({
+  title,
+  user,
+  views,
+  replyCount,
+  created,
+  classes,
+  to,
+}) => (
   <Card className={classes.card}>
     <CardActionArea component={Link} to={to}>
       <CardContent>
@@ -39,7 +55,12 @@ const Discussion = ({ title, user, views, replyCount, classes, to }) => (
           </Grid>
           <Grid item className={classes.grow}>
             <Typography variant="body1">{title}</Typography>
-            <Typography variant="body2">by {user}</Typography>
+            <Typography variant="body2" className={classes.user}>
+              by {user}
+            </Typography>
+            <Typography variant="caption" className={classes.inline}>
+              posted {moment(created).fromNow()}
+            </Typography>
           </Grid>
           <Grid item className={classes.counts}>
             <Typography variant="caption">
@@ -62,6 +83,7 @@ Discussion.propTypes = {
   to: PropTypes.string.isRequired,
   views: PropTypes.number.isRequired,
   replyCount: PropTypes.number.isRequired,
+  created: PropTypes.string.isRequired,
 };
 
 export default withStyles(styles)(Discussion);

@@ -77,6 +77,7 @@ export class DisconnectedHome extends React.Component {
             to={`thread/${thread._id}`}
             views={thread.viewCount}
             replyCount={thread.replies.length}
+            created={thread.created}
           />
         ))}
       </div>
