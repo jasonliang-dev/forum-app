@@ -5,7 +5,6 @@ import cors from 'cors';
 import passport from 'passport';
 import mongoose from 'mongoose';
 import replyRoute from './routes/reply.route';
-import indexRoute from './routes/index.route';
 import threadRoute from './routes/thread.route';
 import userRoute from './routes/user.route';
 import authConfig from './config/passport';
@@ -46,7 +45,6 @@ app.use(passport.session());
 authConfig(passport);
 
 // route middleware
-app.use('/', indexRoute);
 app.use('/replies', replyRoute);
 app.use('/threads', threadRoute);
 app.use('/users', userRoute);
