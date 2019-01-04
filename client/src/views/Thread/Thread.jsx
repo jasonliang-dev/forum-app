@@ -6,18 +6,13 @@ import axios from 'axios';
 import compose from 'ramda/src/compose';
 import Typography from '@material-ui/core/Typography';
 import Fab from '@material-ui/core/Fab';
-import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import { connectFetcher } from '../../actions/fetchActions';
 import ThreadReplyForm from './ThreadReplyForm';
+import DeleteDialog from './DeleteDialog';
 import UserMessage from './UserMessage';
 import { addReply, resetState, openDialog, closeDialog } from './ThreadActions';
 import environment from '../../environment';
@@ -137,29 +132,11 @@ export class DisconnectedThread extends React.Component {
         >
           <DeleteIcon />
         </Fab>
-        <Dialog
-          open={deleteDialogOpenState}
-          onClose={closeDialogBox}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle>Delete Thread</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Do you really want to delete this thread?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={closeDialogBox}>Nonono go back</Button>
-            <Button
-              variant="contained"
-              onClick={this.handleDelete}
-              color="primary"
-            >
-              Yes, delete
-            </Button>
-          </DialogActions>
-        </Dialog>
+        <DeleteDialog
+          openState={deleteDialogOpenState}
+          close={closeDialogBox}
+          onDelete={this.handleDelete}
+        />
         <Typography variant="h4" gutterBottom component="h2">
           {title}
         </Typography>
