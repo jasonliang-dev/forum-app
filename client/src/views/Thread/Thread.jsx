@@ -1,19 +1,26 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import compose from 'ramda/src/compose';
 import Typography from '@material-ui/core/Typography';
 import Fab from '@material-ui/core/Fab';
+import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import { connectFetcher } from '../../actions/fetchActions';
-import environment from '../../environment';
 import ThreadReplyForm from './ThreadReplyForm';
 import UserMessage from './UserMessage';
-import { addReply, clearReplies } from './ThreadActions';
+import { addReply, resetState, openDialog, closeDialog } from './ThreadActions';
+import environment from '../../environment';
 import { inspect } from '../../utils';
 
 const styles = theme => ({
@@ -44,24 +51,25 @@ const styles = theme => ({
   },
 });
 
-const mapStateToProps = state => ({
-  additionalReplies: state.currentThread.additionalReplies,
-});
+const mapStateToProps = state => ({ ...state.currentThread });
 
 const mapDispatchToProps = dispatch => ({
   addToReplyList: reply => dispatch(addReply(reply)),
-  clearReplyStore: () => dispatch(clearReplies()),
+  resetThreadState: () => dispatch(resetState()),
+  openDialogBox: () => dispatch(openDialog()),
+  closeDialogBox: () => dispatch(closeDialog()),
 });
 
 export class DisconnectedThread extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   componentDidMount() {
-    const { fetchData, clearReplyStore, match } = this.props;
-    clearReplyStore();
+    const { fetchData, resetThreadState, match } = this.props;
+    resetThreadState();
     fetchData(`${environment.endpoint}/threads/${match.params.id}`);
   }
 
@@ -81,12 +89,27 @@ export class DisconnectedThread extends React.Component {
       .catch(inspect);
   }
 
+  handleDelete() {
+    const { match, history, closeDialogBox } = this.props;
+    closeDialogBox();
+    const config = {
+      headers: { Authorization: `Bearer ${localStorage.getItem('id_token')}` },
+    };
+    axios
+      .delete(`${environment.endpoint}/threads/${match.params.id}`, config)
+      .then(() => history.push('/'))
+      .catch(inspect);
+  }
+
   render() {
     const {
       classes,
       additionalReplies,
+      deleteDialogOpenState,
       data: payload,
       errorOccurred,
+      openDialogBox,
+      closeDialogBox,
     } = this.props;
 
     if (errorOccurred)
@@ -110,9 +133,33 @@ export class DisconnectedThread extends React.Component {
           aria-label="Remove"
           disabled={localStorage.getItem('id') !== owner._id}
           className={classes.fab}
+          onClick={openDialogBox}
         >
           <DeleteIcon />
         </Fab>
+        <Dialog
+          open={deleteDialogOpenState}
+          onClose={closeDialogBox}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle>Delete Thread</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Do you really want to delete this thread?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={closeDialogBox}>Nonono go back</Button>
+            <Button
+              variant="contained"
+              onClick={this.handleDelete}
+              color="primary"
+            >
+              Yes, delete
+            </Button>
+          </DialogActions>
+        </Dialog>
         <Typography variant="h4" gutterBottom component="h2">
           {title}
         </Typography>
@@ -153,13 +200,21 @@ export class DisconnectedThread extends React.Component {
 }
 
 DisconnectedThread.propTypes = {
+  // react router
+  history: PropTypes.shape({}).isRequired,
+  match: PropTypes.shape({}).isRequired,
+  // jss
   classes: PropTypes.shape({}).isRequired,
-  additionalReplies: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  // dispatch actions
   addToReplyList: PropTypes.func.isRequired,
-  clearReplyStore: PropTypes.func.isRequired,
+  resetThreadState: PropTypes.func.isRequired,
+  openDialogBox: PropTypes.func.isRequired,
+  closeDialogBox: PropTypes.func.isRequired,
+  // state
+  additionalReplies: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  deleteDialogOpenState: PropTypes.bool.isRequired,
   fetchData: PropTypes.func.isRequired,
   data: PropTypes.shape({}),
-  match: PropTypes.shape({}).isRequired,
   errorOccurred: PropTypes.bool,
 };
 
@@ -174,5 +229,6 @@ export default compose(
     mapDispatchToProps,
   ),
   connectFetcher('thread'),
+  withRouter,
   withStyles(styles),
 )(DisconnectedThread);

@@ -3,11 +3,16 @@ import { shallow } from 'enzyme';
 import { DisconnectedThread as Thread } from './Thread';
 
 const defaultProps = {
+  history: {},
   classes: {},
   additionalReplies: [],
   fetchData: () => {},
   addToReplyList: () => {},
   clearReplyStore: () => {},
+  resetThreadState: () => {},
+  openDialogBox: () => {},
+  closeDialogBox: () => {},
+  deleteDialogOpenState: false,
   match: { params: { id: '' } },
 };
 
@@ -27,11 +32,11 @@ describe('Thread', () => {
     expect(mockFetch.mock.calls.length).toBe(1);
   });
 
-  it('clears the additional reply store on mount', () => {
+  it('resets current state on mount', () => {
     const mockClear = jest.fn();
     const props = {
       ...defaultProps,
-      clearReplyStore: mockClear,
+      resetThreadState: mockClear,
     };
     shallow(<Thread {...props} />);
     expect(mockClear.mock.calls.length).toBe(1);

@@ -11,8 +11,18 @@ describe('Thread Actions', () => {
     expect(addReply([1, 2, 3]).payload).toEqual([1, 2, 3]);
   });
 
-  it('returns the correct type for clear reply', () => {
-    const { CLEAR_REPLIES, clearReplies } = actions;
-    expect(clearReplies().type).toEqual(CLEAR_REPLIES);
+  it('returns the correct type for opening dialog', () => {
+    const { OPEN_DELETE_DIALOG, openDialog } = actions;
+    expect(openDialog().type).toEqual(OPEN_DELETE_DIALOG);
+  });
+
+  it('returns the correct type for closing dialog', () => {
+    const { CLOSE_DELETE_DIALOG, closeDialog } = actions;
+    expect(closeDialog().type).toEqual(CLOSE_DELETE_DIALOG);
+  });
+
+  it('returns the correct type for state reset', () => {
+    const { RESET_STATE, resetState } = actions;
+    expect(resetState().type).toEqual(RESET_STATE);
   });
 });
