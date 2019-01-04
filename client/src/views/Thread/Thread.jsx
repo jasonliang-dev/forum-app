@@ -13,6 +13,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { connectFetcher } from '../../actions/fetchActions';
 import ThreadReplyForm from './ThreadReplyForm';
 import DeleteDialog from './DeleteDialog';
+import Replies from './Replies';
 import UserMessage from './UserMessage';
 import { addReply, resetState, openDialog, closeDialog } from './ThreadActions';
 import environment from '../../environment';
@@ -37,12 +38,6 @@ const styles = theme => ({
     left: '50%',
     marginLeft: -20,
     marginTop: -20,
-  },
-  reply: {
-    margin: `${theme.spacing.unit * 3}px 0`,
-  },
-  replyHeader: {
-    marginBottom: theme.spacing.unit * 2,
   },
 });
 
@@ -146,27 +141,7 @@ export class DisconnectedThread extends React.Component {
           </UserMessage>
         </Paper>
         <Paper className={classes.paper}>
-          <Typography variant="h6" className={classes.replyHeader}>
-            Replies
-          </Typography>
-          {replies.length ? (
-            replies.map(
-              ({ _id, body: replyBody, created: replyCreated, user }) => (
-                <UserMessage
-                  key={_id}
-                  username={user.username}
-                  created={replyCreated}
-                  className={classes.reply}
-                >
-                  {replyBody}
-                </UserMessage>
-              ),
-            )
-          ) : (
-            <Typography variant="caption">
-              No comments in this thread. Be the first!
-            </Typography>
-          )}
+          <Replies replyData={replies} />
         </Paper>
         <Paper className={classes.paper}>
           <ThreadReplyForm onSubmit={this.handleSubmit} />
