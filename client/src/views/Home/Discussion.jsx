@@ -25,6 +25,7 @@ const styles = theme => ({
   },
   counts: {
     textAlign: 'right',
+    width: 150,
   },
   user: {
     marginRight: theme.spacing.unit,
@@ -47,7 +48,7 @@ const Discussion = ({
   <Card className={classes.card}>
     <CardActionArea component={Link} to={to}>
       <CardContent>
-        <Grid container>
+        <Grid container wrap="nowrap">
           <Grid item>
             <Avatar className={classes.icon}>
               <ChatIcon />
