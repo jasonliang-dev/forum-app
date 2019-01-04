@@ -49,8 +49,7 @@ export class DisconnectedHome extends React.Component {
         </Typography>
       );
 
-    if (!data || data.length === 0)
-      return <CircularProgress className={classes.loadingSpinner} />;
+    if (!data) return <CircularProgress className={classes.loadingSpinner} />;
 
     return (
       <div className={classes.root}>
@@ -93,7 +92,7 @@ DisconnectedHome.propTypes = {
 };
 
 DisconnectedHome.defaultProps = {
-  data: [],
+  data: undefined,
   errorOccurred: false,
 };
 
