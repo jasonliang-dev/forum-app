@@ -1,14 +1,11 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-import UserMessage from './UserMessage';
+import Reply from './Reply';
 
 const styles = theme => ({
   replyHeader: {
     marginBottom: theme.spacing.unit * 2,
-  },
-  replyMessage: {
-    margin: `${theme.spacing.unit * 3}px 0`,
   },
 });
 
@@ -18,15 +15,10 @@ const Replies = ({ classes, replyData }) => (
       Replies
     </Typography>
     {replyData.length ? (
-      replyData.map(({ _id, body: replyBody, created: replyCreated, user }) => (
-        <UserMessage
-          key={_id}
-          username={user.username}
-          created={replyCreated}
-          className={classes.replyMessage}
-        >
-          {replyBody}
-        </UserMessage>
+      replyData.map(({ _id, body, user, created }) => (
+        <Reply key={_id} username={user.username} created={created}>
+          {body}
+        </Reply>
       ))
     ) : (
       <Typography variant="caption">
